@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Anchoring Edge Cases — Reference</title>
+<style>
+  :root {
+    --ink: #1a1f2e; --muted: #5c6470; --accent: #0d5c4d; --accent-soft: #e8f2ef;
+    --warn: #9a3412; --warn-soft: #fdf0e7; --rule: #e3e6ea; --paper: #fdfdfb;
+  }
+  * { box-sizing: border-box; }
+  body { font-family: Georgia, 'Times New Roman', serif; background: var(--paper); color: var(--ink); margin: 0; line-height: 1.6; }
+  .page { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  nav.course {
+    display: flex; align-items: baseline; gap: .8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem;
+    margin-bottom: 1.6rem; color: var(--muted);
+  }
+  nav.course a { color: var(--accent); text-decoration: none; }
+  nav.course a:hover { text-decoration: underline; }
+  nav.course .grow { flex: 1; }
+  @media print { nav.course { display: none; } }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .kicker { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .72rem; letter-spacing: .18em; text-transform: uppercase; color: var(--accent); font-weight: 700; margin: 0 0 .4rem; }
+  h1 { font-size: 2rem; margin: 0; font-weight: 600; }
+  .subtitle { color: var(--muted); margin-top: .5rem; font-style: italic; }
+  h2 { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 1.1rem; margin: 2.2rem 0 .7rem; color: var(--accent); }
+  a { color: var(--accent); }
+  ul { padding-left: 1.3rem; } li { margin: .45rem 0; }
+  .rule-box { background: var(--accent-soft); border-left: 4px solid var(--accent); padding: .9rem 1.2rem; margin: 1.2rem 0; font-size: .95rem; }
+  .trap { background: var(--warn-soft); border-left: 4px solid var(--warn); padding: .9rem 1.2rem; margin: 1.2rem 0; font-size: .95rem; }
+  .trap strong { color: var(--warn); }
+  .say { font-style: italic; color: var(--muted); }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); }
+  @media print { body { background: #fff; } a { color: var(--ink); text-decoration: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="course">
+    <a href="../index.html">⌂ Course Index</a>
+    <span class="grow"></span>
+    <span><a href="glossary.html">← Glossary</a></span>
+  </nav>
+  <header>
+    <p class="kicker">Reference · Contract Negotiation · companion to <a href="../lessons/0002-anchoring.html">Lesson 0002</a></p>
+    <h1>Anchoring Edge Cases</h1>
+    <p class="subtitle">RFQs &amp; sealed bids · "list price" · non-price terms</p>
+  </header>
+
+  <h2>1 · RFQs &amp; sealed bids: anchoring before and after the envelope</h2>
+  <ul>
+    <li><strong>Compete vs. negotiate is the upstream choice.</strong> A study of 4,000+ construction contracts: fixed-price, spec-clear work went to auction/sealed bid; complex or quality-sensitive work was negotiated. Auctions compress price but "make lower-quality providers competitive" and repel top suppliers in busy markets (<a href="https://www.pon.harvard.edu/daily/negotiation-or-an-auction/">PON: Negotiation or an Auction?</a>). Sealed-bid the commodities; negotiate anything where quality, partnership, or supplier input matters.</li>
+    <li><strong>Your RFQ document is an anchor.</strong> Publishing a budget or target price anchors bidders <em>up to it</em> — never disclose it. What you should anchor in the document: spec, volumes, contract terms, and evaluation criteria, so bidders compete inside your frame.</li>
+    <li><strong>After bids open, normal anchoring resumes.</strong> Most RFQs end in a shortlist negotiation (BAFO round). Received bids are now anchors on you — run the <a href="glossary.html#batna">equivalence check</a> before letting the lowest bid become your reference. In the BAFO round you can anchor explicitly: <span class="say">"to win this, you'll need to be at $X."</span></li>
+  </ul>
+
+  <h2>2 · When "list price" is the anchor</h2>
+  <div class="rule-box"><strong>Rule: never negotiate discount-from-list. Change the baseline.</strong> List price is a manufactured reference point designed to make any discount feel like a gain (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/the-anchoring-bias-consumers-beware/">PON: The Anchoring Bias — Consumers, Beware</a>, <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/price-anchoring-101/">Price Anchoring 101</a>).</div>
+  <ul>
+    <li>Run the standard three-move defense, tuned for list price: defuse — <span class="say">"list isn't a meaningful starting point for an account our size"</span>; probe — <span class="say">"who actually pays list?"</span> (almost nobody, and the rep knows it); re-anchor on an objective baseline: last year's realized price, a competing quote, indexed input costs.</li>
+    <li><strong>Track realized unit price, not discount %.</strong> "We got 35% off" is their frame; a deeper discount off an inflated list can still be a worse price. Year-over-year realized price is the only honest metric for recurring suppliers.</li>
+  </ul>
+  <div class="trap"><strong>Discount theater:</strong> a supplier raising list 10% then offering 5% more discount has raised your price while improving your "deal." Always reconstruct the absolute number.</div>
+
+  <h2>3 · Anchoring on non-price terms</h2>
+  <ul>
+    <li><strong>Anything quantifiable anchors:</strong> payment days, lead-time weeks, warranty months, SLA penalty %, MOQ. Same Kahneman–Tversky machinery, and counterparties defend non-price anchors far less vigilantly than price ones.</li>
+    <li><strong>Anchor the package, not just the price.</strong> If your opening is price-only, the supplier re-anchors every other variable ("fine on price — 50% advance, 90-day lead"). Open with the full term set: price, payment, lead time, warranty together. Prerequisite: your deal sheet needs aspiration/reservation <em>per variable</em>, not just for price.</li>
+    <li><strong>Range offers work on terms.</strong> Research on "bolstering range offers" (Ames &amp; Mason, via <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/anchoring-bias-negotiation-get-ahead-range-offer/">PON: Single Offer or a Range?</a>): a range from your target to better-than-target (e.g. "24–36 month warranty") anchors at the high end while reading as more reasonable and less relationship-abrasive than a bare demand.</li>
+    <li><strong>Ambitious non-price anchors are concession fuel.</strong> Terms you anchor high but value low become cheap things to trade later — the bridge to concession strategy (Lesson 0003).</li>
+  </ul>
+
+  <footer>
+    Companion to <a href="../lessons/0002-anchoring.html">Lesson 0002 — Anchoring</a> · <a href="../index.html">Course Index</a> · <a href="glossary.html">Glossary</a><br>
+    Sources: <a href="https://www.pon.harvard.edu/daily/negotiation-or-an-auction/">PON: Negotiation or an Auction?</a> · <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/price-anchoring-101/">PON: Price Anchoring 101</a> · <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/anchoring-bias-negotiation-get-ahead-range-offer/">PON: Single Offer or a Range?</a> · <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/the-anchoring-bias-consumers-beware/">PON: Consumers, Beware</a>
+  </footer>
+</div>
+</body>
+</html>

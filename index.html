@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contract Negotiation — Course Index</title>
+<style>
+  :root {
+    --ink: #1a1f2e;
+    --muted: #5c6470;
+    --accent: #0d5c4d;
+    --accent-soft: #e8f2ef;
+    --warn: #9a3412;
+    --warn-soft: #fdf0e7;
+    --rule: #e3e6ea;
+    --paper: #fdfdfb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper); color: var(--ink);
+    margin: 0; line-height: 1.65; font-size: 1.02rem;
+  }
+  .page { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .4rem;
+  }
+  h1 { font-size: 2.2rem; margin: 0; font-weight: 600; line-height: 1.2; }
+  .subtitle { color: var(--muted); margin-top: .6rem; font-style: italic; }
+  h2 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.05rem; margin: 2.6rem 0 1rem; letter-spacing: .08em;
+    text-transform: uppercase; color: var(--accent);
+  }
+  a { color: var(--accent); }
+  .system {
+    font-family: 'SF Mono', Menlo, monospace; font-size: .78rem;
+    background: #f4f5f3; border: 1px solid var(--rule); border-radius: 6px;
+    padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre;
+    line-height: 1.9; color: var(--ink);
+  }
+  .lesson-list { list-style: none; margin: 0; padding: 0; }
+  .lesson-list li {
+    border: 1px solid var(--rule); border-radius: 8px; background: #fff;
+    margin: .7rem 0; transition: border-color .15s;
+  }
+  .lesson-list li:hover { border-color: var(--accent); }
+  .lesson-list a.card {
+    display: flex; gap: 1.1rem; padding: 1rem 1.2rem;
+    text-decoration: none; color: var(--ink); align-items: baseline;
+  }
+  .lesson-list .num {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 700;
+    color: var(--accent); font-size: 1.05rem; min-width: 2.6rem;
+  }
+  .lesson-list .body strong { font-size: 1.05rem; }
+  .lesson-list .body .desc { display: block; color: var(--muted); font-size: .92rem; margin-top: .15rem; }
+  .lesson-list li.planned { background: transparent; border-style: dashed; }
+  .lesson-list li.planned .card { cursor: default; }
+  .lesson-list li.planned .num, .lesson-list li.planned strong { color: var(--muted); }
+  .badge {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .68rem;
+    letter-spacing: .1em; text-transform: uppercase; color: var(--warn);
+    background: var(--warn-soft); border-radius: 4px; padding: .15rem .5rem;
+    margin-left: .5rem; white-space: nowrap;
+  }
+  .ref-list { list-style: none; margin: 0; padding: 0; }
+  .ref-list li { margin: .55rem 0; padding-left: 1.4rem; position: relative; }
+  .ref-list li::before { content: "§"; position: absolute; left: .2rem; color: var(--accent); font-family: Georgia, serif; }
+  .ref-list .desc { color: var(--muted); font-size: .92rem; }
+  .bundle {
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: 1rem 1.3rem; margin: 1.4rem 0; font-size: .95rem;
+  }
+  .bundle ol { margin: .5rem 0 0; padding-left: 1.3rem; }
+  .bundle li { margin: .3rem 0; }
+  .sources { font-size: .95rem; }
+  .sources li { margin: .45rem 0; }
+  .sources .desc { color: var(--muted); font-size: .9rem; }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); }
+  @media print { body { background: #fff; } a { color: var(--ink); text-decoration: none; } }
+</style>
+</head>
+<body>
+<div class="page">
+  <header>
+    <p class="kicker">Teaching Workspace · marcin · started June 2026</p>
+    <h1>Contract Negotiation</h1>
+    <p class="subtitle">A repeatable method for B2B purchase, service, and distribution negotiations — best price and terms, without burning the relationships that take years to build.</p>
+  </header>
+
+  <h2>The system so far</h2>
+  <div class="system">PREPARE          OPEN            CLOSE THE GAP      GROW THE PIE      DELIVER IT
+deal sheet  →    anchor      →   concession    →    variable     →    tactical
+(0001)           (0002)          ladder (0003)      map (0004)        empathy (0005)
+
+the sheet bounds the game · the anchor opens it · the ladder spends the budget
+the map makes spending profitable · the voice keeps the relationship whole</div>
+
+  <h2>Lessons <span style="text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400">· ~15 minutes each, quiz included</span></h2>
+  <ol class="lesson-list">
+    <li><a class="card" href="lessons/0001-the-deal-sheet.html">
+      <span class="num">0001</span>
+      <span class="body"><strong>The Deal Sheet</strong>
+        <span class="desc">BATNA → reservation point → aspiration point → ZOPA. One page, three numbers, prepared before every negotiation — and the equivalence trap that makes "cheaper" quotes lie.</span></span>
+    </a></li>
+    <li><a class="card" href="lessons/0002-anchoring.html">
+      <span class="num">0002</span>
+      <span class="body"><strong>Anchoring: The First Number</strong>
+        <span class="desc">When to name the first number (more often than procurement instinct says), why precise beats round, and the three-move defense when the anchor is theirs.</span></span>
+    </a></li>
+    <li><a class="card" href="lessons/0003-concession-strategy.html">
+      <span class="num">0003</span>
+      <span class="body"><strong>Concession Strategy</strong>
+        <span class="desc">Never free: labeled, traded, shrinking. Malhotra's four strategies and the pre-planned concession ladder that spends your budget profitably.</span></span>
+    </a></li>
+    <li><a class="card" href="lessons/0004-interests-and-logrolling.html">
+      <span class="num">0004</span>
+      <span class="body"><strong>Interests, Not Positions</strong>
+        <span class="desc">The interests behind a "firm" price, logrolling across valuation gaps, the variable map — and why settling price first destroys your trading currency.</span></span>
+    </a></li>
+    <li><a class="card" href="lessons/0005-calibrated-questions.html">
+      <span class="num">0005</span>
+      <span class="body"><strong>Calibrated Questions &amp; Tactical Empathy</strong>
+        <span class="desc">Mirror, label, empathy loop, and the how/what question that hands them your problem. Pressure that doesn't bruise — plus a three-day drill to make it reflexive.</span></span>
+    </a></li>
+    <li class="planned"><span class="card">
+      <span class="num">0006</span>
+      <span class="body"><strong>Multi-Issue Offers (MESOs)</strong><span class="badge">planned</span>
+        <span class="desc">Presenting several equally-valued packages at once — signaling flexibility while mapping their true priorities.</span></span>
+    </span></li>
+    <li class="planned"><span class="card">
+      <span class="num">0007</span>
+      <span class="body"><strong>Buyer-Side Contract Terms</strong><span class="badge">planned</span>
+        <span class="desc">Payment terms, warranties, liability, exit clauses — which commercial terms are worth fighting for, from the buyer's chair.</span></span>
+    </span></li>
+  </ol>
+
+  <h2>Reference <span style="text-transform:none;letter-spacing:0;color:var(--muted);font-weight:400">· the compressed essence, built for revisiting</span></h2>
+  <ul class="ref-list">
+    <li><a href="reference/glossary.html">Negotiation Glossary</a><br>
+      <span class="desc">The working vocabulary — every term, exactly as the lessons use it, with the preparation chain. Grows with each lesson.</span></li>
+    <li><a href="reference/anchoring-edge-cases.html">Anchoring Edge Cases</a><br>
+      <span class="desc">RFQs &amp; sealed bids, defusing "list price," anchoring on non-price terms. Companion to Lesson 0002.</span></li>
+  </ul>
+
+  <h2>Current homework</h2>
+  <div class="bundle">
+    <strong>The weekend bundle</strong> — three planning artifacts, all for the same real deal, to be worked through together afterward:
+    <ol>
+      <li><strong>Deal sheet</strong> — <a href="lessons/0001-the-deal-sheet.html">Lesson 0001, §4</a> (printable template)</li>
+      <li><strong>Concession ladder</strong> — <a href="lessons/0003-concession-strategy.html">Lesson 0003, §5</a></li>
+      <li><strong>Variable map</strong> — <a href="lessons/0004-interests-and-logrolling.html">Lesson 0004, §5</a></li>
+    </ol>
+    Running in parallel: the <a href="lessons/0005-calibrated-questions.html">three-day tactical-empathy drill</a> (Lesson 0005, §4) — no negotiation required.
+  </div>
+
+  <h2>Sources &amp; further reading</h2>
+  <ul class="sources">
+    <li><a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-preparation-checklist/">Program on Negotiation, Harvard Law School</a><br>
+      <span class="desc">Primary knowledge source for all lessons — preparation checklist, BATNA, anchoring, concessions, value creation. Free articles, continuously updated.</span></li>
+    <li><em>Negotiation for Procurement and Supply Chain Professionals</em> — Jonathan O'Brien<br>
+      <span class="desc">The procurement-side standard (Red Sheet methodology). Closest book match to this course's mission.</span></li>
+    <li><em>Getting to Yes</em> — Fisher, Ury &amp; Patton · <em>Never Split the Difference</em> — Voss &amp; Raz · <em>3D Negotiation</em> — Lax &amp; Sebenius<br>
+      <span class="desc">Principled negotiation (Lesson 0004) · the verbal toolkit (Lesson 0005) · deal design away from the table (future lessons).</span></li>
+    <li>Communities: <a href="https://www.reddit.com/r/procurement/">r/procurement</a> · <a href="https://www.reddit.com/r/negotiation/">r/negotiation</a> · <a href="https://www.cips.org/">CIPS</a><br>
+      <span class="desc">Where the wisdom lives — scenario critique, payment-terms norms, practitioner exchange. Full annotated list in <code>RESOURCES.md</code>.</span></li>
+  </ul>
+
+  <footer>
+    Open this page anytime: <code>open index.html</code> from the workspace · Mission and curated resources live in <code>MISSION.md</code> and <code>RESOURCES.md</code> · Your teacher is one terminal away.
+  </footer>
+</div>
+</body>
+</html>

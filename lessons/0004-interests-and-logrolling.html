@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 0004 — Interests, Not Positions</title>
+<style>
+  :root {
+    --ink: #1a1f2e;
+    --muted: #5c6470;
+    --accent: #0d5c4d;
+    --accent-soft: #e8f2ef;
+    --warn: #9a3412;
+    --warn-soft: #fdf0e7;
+    --good: #166534;
+    --good-soft: #ecf7ee;
+    --bad: #991b1b;
+    --bad-soft: #fcecec;
+    --rule: #e3e6ea;
+    --paper: #fdfdfb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper); color: var(--ink);
+    margin: 0; line-height: 1.65; font-size: 1.02rem;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  nav.course {
+    display: flex; align-items: baseline; gap: .8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem;
+    margin-bottom: 1.6rem; color: var(--muted);
+  }
+  nav.course a { color: var(--accent); text-decoration: none; }
+  nav.course a:hover { text-decoration: underline; }
+  nav.course .grow { flex: 1; }
+  @media print { nav.course { display: none; } }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .4rem;
+  }
+  h1 { font-size: 2.1rem; margin: 0; font-weight: 600; line-height: 1.2; }
+  .promise { color: var(--muted); margin-top: .6rem; font-style: italic; }
+  h2 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.15rem; margin: 2.6rem 0 .8rem; letter-spacing: .02em;
+  }
+  h2 .n { color: var(--accent); margin-right: .5rem; }
+  a { color: var(--accent); }
+  .mission-tie {
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .term { font-weight: 700; color: var(--accent); }
+  .rule-box {
+    font-family: 'SF Mono', Menlo, monospace; font-size: .82rem;
+    background: #f4f5f3; border: 1px solid var(--rule); border-radius: 6px;
+    padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre;
+    line-height: 1.9;
+  }
+  .say {
+    font-style: italic; color: var(--muted); display: block;
+    border-left: 3px solid var(--rule); padding-left: .9rem; margin: .5rem 0;
+  }
+  .scenario {
+    border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1.2rem 1.4rem; margin: 1.4rem 0; background: #fff;
+  }
+  .scenario h3 {
+    margin: 0 0 .6rem; font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .95rem; }
+  th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  td.hi { color: var(--good); font-weight: 700; }
+  td.lo { color: var(--muted); }
+  .trap {
+    background: var(--warn-soft); border-left: 4px solid var(--warn);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .trap strong { color: var(--warn); }
+  /* Quiz */
+  .quiz { counter-reset: q; margin-top: 1rem; }
+  .q {
+    border: 1px solid var(--rule); border-radius: 8px; background: #fff;
+    padding: 1.1rem 1.3rem; margin: 1.2rem 0;
+  }
+  .q p.stem { margin: 0 0 .8rem; font-weight: 600; }
+  .q p.stem::before {
+    counter-increment: q; content: "Q" counter(q) " · ";
+    color: var(--accent); font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .q button.opt {
+    display: block; width: 100%; text-align: left;
+    font-family: Georgia, serif; font-size: .95rem;
+    background: #fafaf8; border: 1px solid var(--rule); border-radius: 6px;
+    padding: .6rem .9rem; margin: .4rem 0; cursor: pointer; color: var(--ink);
+    transition: background .15s;
+  }
+  .q button.opt:hover { background: var(--accent-soft); }
+  .q button.opt.correct { background: var(--good-soft); border-color: var(--good); }
+  .q button.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .q .explain { display: none; margin-top: .7rem; padding: .7rem .9rem; border-radius: 6px; font-size: .92rem; }
+  .q .explain.shown { display: block; }
+  .q .explain.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .q .explain.bad { background: var(--bad-soft); border-left: 3px solid var(--bad); }
+  .score {
+    display: none; margin: 1.5rem 0; padding: 1rem 1.2rem; border-radius: 8px;
+    background: var(--accent-soft); border-left: 4px solid var(--accent); font-weight: 600;
+  }
+  .followup {
+    background: var(--accent-soft); border-radius: 8px; padding: 1rem 1.3rem;
+    margin-top: 2.5rem; font-size: .95rem;
+  }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); }
+  @media print {
+    .quiz, .followup, .score { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="course">
+    <span><a href="0003-concession-strategy.html">← 0003 · Concession Strategy</a></span>
+    <span class="grow"></span>
+    <a href="../index.html">⌂ Course Index</a>
+    <span class="grow"></span>
+    <span>Next: <a href="0005-calibrated-questions.html">0005 · Calibrated Questions →</a></span>
+  </nav>
+  <header>
+    <p class="kicker">Lesson 0004 · Contract Negotiation · ~15 minutes</p>
+    <h1>Interests, Not Positions</h1>
+    <p class="promise">A position is a number. An interest is the reason behind it. Trade across interests and the pie gets bigger before you divide it.</p>
+  </header>
+
+  <div class="mission-tie">
+    <strong>Builds on Lessons 0001–0003.</strong> So far the toolkit is distributive — dividing a fixed gap. This lesson adds the integrative half: discovering what the supplier <em>actually</em> wants (rarely just "more money") and trading what's cheap for you against what's dear to them. This is where "best terms" and "long-term relationship" stop being a trade-off entirely — value-creating deals are the ones suppliers want to repeat.
+  </div>
+
+  <h2><span class="n">1.</span> Positions are the tip of the iceberg</h2>
+
+  <p>A <span class="term">position</span> is what they say they want: <em>"$2,350, firm."</em> An <span class="term">interest</span> is why they want it. From <em>Getting to Yes</em> (Fisher, Ury &amp; Patton), the second principle of principled negotiation: <strong>focus on interests, not positions</strong> — because incompatible positions often hide compatible interests (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/principled-negotiation-focus-interests-create-value/">PON: Principled Negotiation</a>).</p>
+
+  <p>What actually sits behind a supplier's "firm" price position? Almost always several of these:</p>
+  <ul>
+    <li><strong>Cash flow</strong> — they may take a lower price for faster payment, or advance payment</li>
+    <li><strong>Capacity utilization</strong> — a quiet quarter makes your volume worth a discount; a full order book makes lead time their pain point, not price</li>
+    <li><strong>Predictability</strong> — annual volume commitments let them buy materials better; that's worth real money to them and often costs you nothing</li>
+    <li><strong>Quarter / year-end targets</strong> — the same deal is worth more to a rep in the last week of the quarter</li>
+    <li><strong>Reference value</strong> — your name on their customer list, a case study, an introduction</li>
+  </ul>
+
+  <p>Each of these is a variable that can move <em>instead of</em> price — but only if you surface it. The probing tool is one you already own: the anchor-defense question from Lesson 0002 (<em>"help me understand what that number is built on"</em>) is an interest probe. So are:</p>
+  <span class="say">"What would have to be true for a better price to work on your side?"</span>
+  <span class="say">"If we could move on payment terms or volume commitment, what would that be worth?"</span>
+
+  <h2><span class="n">2.</span> Logrolling: trading across the variables</h2>
+
+  <p><span class="term">Logrolling</span> is the formal name for trading across issues based on <em>different priorities</em>: you give ground on what you value less but they value more, and take ground where it's reversed (<a href="https://www.pon.harvard.edu/tag/logrolling/">PON: Logrolling</a>). The mechanism that makes it work is the difference in valuations — a net-60→net-30 payment change might cost you 0.3% in working capital but be worth 2% to a cash-strapped supplier. That 1.7% spread is <em>created</em> value, not value taken from either side (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/value-creation-in-negotiation/">PON: Value Creation</a>).</p>
+
+  <p>Three practical rules from the research (<a href="https://www.pon.harvard.edu/daily/conflict-resolution/got-issues-in-negotiation-the-more-the-better-nb/">PON: Capitalize on Multiple Issues</a>):</p>
+
+  <div class="rule-box">1. MORE ISSUES, NOT FEWER   value creation depends on having multiple
+                            issues on the table — add variables
+                            (payment, lead time, warranty, volume,
+                            duration, spares, training) before haggling
+
+2. KEEP THEM ALL OPEN       "nothing is agreed until everything is
+                            agreed" — settle issues as a package,
+                            never one-by-one
+
+3. EXPLAIN THE LOGIC        tell the supplier why you're widening the
+                            conversation — tradeoffs help them too,
+                            and saying so builds the relationship</div>
+
+  <p>Rule 2 is the one that bites buyers hardest. PON's own example is a customer–supplier purchasing agreement: parties who <strong>agree on price per unit early lose the ability to trade small price concessions for delivery, contract duration, and dispute-resolution terms later</strong> (<a href="https://www.pon.harvard.edu/daily/conflict-resolution/got-issues-in-negotiation-the-more-the-better-nb/">PON</a>). Once price is locked, every remaining issue becomes a single-issue tug-of-war — and you're back to dividing instead of creating. Even the EU learned this the hard way: Brexit talks stalemated under phased sequencing until both sides adopted "nothing is agreed until everything is agreed."</p>
+
+  <div class="trap">
+    <strong>The fixed-pie assumption.</strong> The instinct that says "whatever helps them must hurt us" — the most documented bias in negotiation. It makes buyers refuse to share information (so interests stay hidden, so no trades happen, so the pie stays small) and read every supplier proposal as a trick. Antidote: you don't need to reveal your reservation point to logroll — you only need to share <em>priorities</em> ("lead time matters more to us than warranty this year"). Priorities are safe to trade; limits are not.
+  </div>
+
+  <h2><span class="n">3.</span> Worked example: the variable map</h2>
+
+  <div class="scenario">
+    <h3>Scenario · Coldline renewal, one more pass</h3>
+    <p>Before the meeting, you extend the deal sheet with a <strong>variable map</strong> — every issue in play, valued from both sides (their column is your estimate, refined by probing in the room):</p>
+    <table>
+      <tr><th>Variable</th><th>Value to you</th><th>Cost to them</th><th>Trade?</th></tr>
+      <tr><td>Unit price</td><td class="hi">High</td><td class="hi">High</td><td>The battleground — divide last</td></tr>
+      <tr><td>Payment net 30 → net 60</td><td class="lo">Low (0.3%)</td><td class="hi">High (cash flow)</td><td><strong>Give</strong> — buys price</td></tr>
+      <tr><td>Annual volume commitment</td><td class="lo">Low (you'd order anyway)</td><td class="hi">High (planning, materials)</td><td><strong>Give</strong> — buys price or lead time</td></tr>
+      <tr><td>Lead time 9 → 6 weeks</td><td class="hi">High (project schedule)</td><td class="lo">Low (slack capacity)</td><td><strong>Take</strong></td></tr>
+      <tr><td>Warranty 24 → 36 months</td><td class="hi">High (lifecycle cost)</td><td class="lo">Low (their failure rates are good)</td><td><strong>Take</strong></td></tr>
+    </table>
+    <p style="margin-bottom:0">Now reread the concession ladder from Lesson 0003 — its trades came <em>from this map</em>. The ladder decided how to spend your price budget; the map decides what each installment buys. Four lessons, one connected system: the sheet bounds it, the anchor opens it, the ladder spends it, the map is what makes the spending profitable.</p>
+  </div>
+
+  <h2><span class="n">4.</span> Check yourself</h2>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-correct="b">
+      <p class="stem">A supplier holds firm at $2,350: "That's genuinely our floor." Probing reveals their real concern is that your orders arrive unpredictably, forcing expensive rush production. What's the interests-based read?</p>
+      <button class="opt" data-k="a">Their floor is their floor — the probing confirmed the price position is real, so pay it or walk</button>
+      <button class="opt" data-k="b">The position is "$2,350"; the interest is predictability — offer a committed order schedule and the floor likely drops below $2,350</button>
+      <button class="opt" data-k="c">Unpredictability is their operational problem to solve, not something that belongs in a price negotiation</button>
+      <div class="explain good">Right. "$2,350 is our floor" is true <em>given</em> unpredictable orders — change what's behind the position and the position moves. A committed schedule might cost you almost nothing (you'd order anyway) while killing their rush-production cost: a textbook logroll where the price floor was never really about price.</div>
+      <div class="explain bad">The probe didn't confirm the position — it revealed the interest underneath it. Their floor is $2,350 <em>under current conditions</em>, where erratic orders force rush production. Offering a committed schedule changes their cost structure, which moves the floor. Refusing to engage with their operational pain (or taking the position at face value) leaves that entire trade — cheap for you, valuable for them — undiscovered.</div>
+    </div>
+
+    <div class="q" data-correct="c">
+      <p class="stem">Forty minutes in, you and the supplier shake on $2,260/unit — "good, price is done, now let's sort out delivery, warranty, and payment." What does the research say you just did?</p>
+      <button class="opt" data-k="a">Made progress — locking the hardest issue first means the rest will fall into place faster</button>
+      <button class="opt" data-k="b">A reasonable simplification, as long as the price was inside your ZOPA</button>
+      <button class="opt" data-k="c">Gave up your trading currency — with price locked, every remaining issue is a single-issue fight, and small price moves can no longer buy delivery, warranty, or terms</button>
+      <div class="explain good">Exactly — this is PON's own customer–supplier example. Settling price first feels like progress precisely because it's the hardest issue, but it walls off the most liquid currency in the deal. Now warranty is a yes/no battle instead of "we can live with 24 months at $2,250, or 36 at $2,265 — which works better for you?" Keep the package open: nothing is agreed until everything is agreed.</div>
+      <div class="explain bad">Inside-ZOPA or not, the damage is structural: price is the most liquid variable in the deal — the one that can buy and sell against everything else. Locked early, every remaining issue (delivery, warranty, payment) becomes its own zero-sum tug-of-war with nothing to trade. The research is unambiguous: settle the package, not the sequence. "Nothing is agreed until everything is agreed."</div>
+    </div>
+
+    <div class="q" data-correct="a">
+      <p class="stem">You're wary of revealing too much: "if Coldline knows what we care about, they'll use it against us." Per this lesson, what's safe to share and what isn't?</p>
+      <button class="opt" data-k="a">Share priorities ("lead time matters more than warranty this year"); never share limits (reservation point, budget ceiling)</button>
+      <button class="opt" data-k="b">Share nothing — information is leverage, and any disclosure weakens your position</button>
+      <button class="opt" data-k="c">Share everything including your walk-away — transparency is what builds long-term supplier trust</button>
+      <div class="explain good">Right — this is the antidote to the fixed-pie bias. Logrolling is impossible if neither side knows the other's priorities: no information, no trades, small pie. But priorities and limits are different currencies — "lead time matters most to us" enables trades; "we can go to $2,390" just tells them where the deal will end. Share the first freely, guard the second always.</div>
+      <div class="explain bad">Both extremes fail. Total secrecy (b) is the fixed-pie trap in action: with no priority information flowing, no value-creating trades can be found, and you're left pure price-haggling — worst outcome for a long-term relationship. Total transparency (c) confuses priorities with limits: revealing your reservation point doesn't build trust, it just moves the settlement to your wall. The line is: priorities yes, limits no.</div>
+    </div>
+
+    <div class="q" data-correct="b">
+      <p class="stem">Which of these is the strongest sign you've found a genuine logroll (value creation, not just a concession swap)?</p>
+      <button class="opt" data-k="a">Both sides gave up something of roughly equal value, so the exchange was fair</button>
+      <button class="opt" data-k="b">The thing traded costs the giver much less than it's worth to the receiver — in both directions</button>
+      <button class="opt" data-k="c">The supplier accepted quickly, showing the trade was attractive to them</button>
+      <div class="explain good">That's the engine. Equal-value swaps just shuffle the same pie; a logroll requires a <em>valuation gap</em> — net-60 costs you 0.3% but relieves a cash-flow pinch worth 2% to them, while faster lead time costs their slack capacity little but saves your project schedule a lot. Sum the gaps across both directions and that's the value the negotiation created out of nothing. Hunt for valuation gaps, not fair swaps.</div>
+      <div class="explain bad">"Fair" equal-value swaps (a) create nothing — the pie just gets re-sliced. And quick acceptance (c) is ambiguous at best: it may mean you underpriced what you gave. The defining feature of a logroll is the <em>valuation gap</em>: each side hands over what costs it little and receives what it values highly. The gaps, summed, are new value that didn't exist before the trade — that's what "expanding the pie" literally means.</div>
+    </div>
+
+    <div class="score" id="score"></div>
+  </div>
+
+  <h2><span class="n">5.</span> Your win: map the variables <span style="font-weight:400;color:var(--muted);font-size:.85em">(weekend bundle, part 3)</span></h2>
+  <p>This joins the deal sheet (0001) and concession ladder (0003) in your weekend exercise set — all three for the same real deal:</p>
+  <ol>
+    <li>List every variable in play — aim for at least six: price, payment terms, lead time, warranty, volume/duration commitment, spares/training/support, delivery terms.</li>
+    <li>Score each: value to you (high/low) and estimated cost to them (high/low).</li>
+    <li>Mark the logrolls: <strong>give</strong> = low value to you, high to them; <strong>take</strong> = the reverse. The asymmetric rows are where the deal gets better for both sides.</li>
+    <li>Write one probing question for the variable where you're least sure of their valuation.</li>
+  </ol>
+
+  <div class="followup">
+    <strong>Questions?</strong> Ask me in the terminal: how to probe interests when the rep stonewalls, whether to widen the variable set in the RFQ itself or in the room, how logrolling changes when procurement KPIs only measure price — or anything else unclear.
+  </div>
+
+  <footer>
+    Lesson 0004 · <a href="../index.html">Course Index</a> · <a href="../reference/glossary.html">Glossary</a> · Previous: <a href="0003-concession-strategy.html">Concession Strategy</a> · Next: <a href="0005-calibrated-questions.html">0005 — Calibrated Questions &amp; Tactical Empathy</a><br>
+    Sources: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/principled-negotiation-focus-interests-create-value/">PON: Principled Negotiation</a> · <a href="https://www.pon.harvard.edu/daily/conflict-resolution/got-issues-in-negotiation-the-more-the-better-nb/">PON: Capitalize on Multiple Issues</a> · <a href="https://www.pon.harvard.edu/tag/logrolling/">PON: Logrolling</a> · <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/value-creation-in-negotiation/">PON: Value Creation</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var qs = Array.prototype.slice.call(document.querySelectorAll('.q'));
+  var answered = 0, correct = 0;
+  qs.forEach(function (q) {
+    var done = false;
+    q.querySelectorAll('button.opt').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (done) return;
+        done = true;
+        answered++;
+        var isRight = btn.dataset.k === q.dataset.correct;
+        if (isRight) correct++;
+        q.querySelectorAll('button.opt').forEach(function (b) {
+          if (b.dataset.k === q.dataset.correct) b.classList.add('correct');
+          else if (b === btn) b.classList.add('wrong');
+          b.style.cursor = 'default';
+        });
+        q.querySelector(isRight ? '.explain.good' : '.explain.bad').classList.add('shown');
+        if (answered === qs.length) {
+          var s = document.getElementById('score');
+          s.style.display = 'block';
+          s.textContent = 'Score: ' + correct + '/' + qs.length + ' — ' +
+            (correct === 4 ? 'Solid. The variable map joins your weekend exercise bundle.' :
+             correct >= 2 ? 'Good. Re-read the explanations you missed; the variable map is part 3 of the weekend bundle.' :
+             'Re-read sections 1–2 before the weekend exercises. Ask your teacher about anything unclear.');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

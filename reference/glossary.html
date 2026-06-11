@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Negotiation Glossary — Reference</title>
+<style>
+  :root {
+    --ink: #1a1f2e;
+    --muted: #5c6470;
+    --accent: #0d5c4d;
+    --accent-soft: #e8f2ef;
+    --rule: #e3e6ea;
+    --paper: #fdfdfb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper);
+    color: var(--ink);
+    margin: 0;
+    line-height: 1.6;
+  }
+  .page { max-width: 760px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  nav.course {
+    display: flex; align-items: baseline; gap: .8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem;
+    margin-bottom: 1.6rem; color: var(--muted);
+  }
+  nav.course a { color: var(--accent); text-decoration: none; }
+  nav.course a:hover { text-decoration: underline; }
+  nav.course .grow { flex: 1; }
+  @media print { nav.course { display: none; } }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 0.72rem; letter-spacing: 0.18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .4rem;
+  }
+  h1 { font-size: 2rem; margin: 0; font-weight: 600; }
+  .subtitle { color: var(--muted); margin-top: .5rem; font-style: italic; }
+  dl { margin: 0; }
+  dt {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-weight: 700; font-size: 1.05rem; margin-top: 1.8rem;
+    color: var(--accent);
+  }
+  dt .term-id { color: var(--muted); font-weight: 400; font-size: .85rem; }
+  dd { margin: .35rem 0 0 0; }
+  dd .use {
+    display: block; margin-top: .35rem; font-size: .92rem; color: var(--muted);
+  }
+  dd .use strong { color: var(--ink); font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; }
+  .chain {
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: 1rem 1.2rem; margin: 2.2rem 0; font-size: .95rem;
+  }
+  .chain code { font-family: 'SF Mono', Menlo, monospace; font-size: .85rem; }
+  a { color: var(--accent); }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); }
+  @media print {
+    body { background: #fff; }
+    .page { padding: 0; max-width: none; }
+    a { color: var(--ink); text-decoration: none; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="course">
+    <a href="../index.html">⌂ Course Index</a>
+    <span class="grow"></span>
+    <span><a href="anchoring-edge-cases.html">Anchoring Edge Cases →</a></span>
+  </nav>
+  <header>
+    <p class="kicker">Reference · Contract Negotiation</p>
+    <h1>Negotiation Glossary</h1>
+    <p class="subtitle">The working vocabulary. Every lesson uses these terms exactly as defined here.</p>
+  </header>
+
+  <dl>
+    <dt id="batna">BATNA <span class="term-id">— Best Alternative To a Negotiated Agreement</span></dt>
+    <dd>
+      What you will actually do if this deal falls through: the next-best supplier, doing it in-house, postponing, or doing nothing. It must be a <em>real, available</em> option — not a hope. Your BATNA is the source of all your negotiating power: the better it is, the less you need this deal.
+      <span class="use"><strong>Use it to:</strong> decide whether any proposed deal beats walking away. Source: <a href="https://www.pon.harvard.edu/tag/batna/">PON Harvard — BATNA</a>.</span>
+    </dd>
+
+    <dt id="reservation-point">Reservation point <span class="term-id">— walk-away point</span></dt>
+    <dd>
+      Your BATNA translated into a number on <em>this</em> deal: the exact price/terms at which you are indifferent between signing and walking. Worse than this → walk. Critically, the comparison must be on <em>equivalent terms</em> — a cheaper alternative with worse warranty or lead time is not actually cheaper.
+      <span class="use"><strong>Use it to:</strong> know, before the meeting, the line you will not cross. Source: <a href="https://www.pon.harvard.edu/daily/batna/translate-your-batna-to-the-current-deal/">PON — Translate your BATNA</a>.</span>
+    </dd>
+
+    <dt id="aspiration-point">Aspiration point <span class="term-id">— target</span></dt>
+    <dd>
+      The ambitious-but-defensible outcome you are aiming for — what the deal looks like if it goes well. Negotiators who set explicit, optimistic targets systematically achieve more than those who only know their walk-away.
+      <span class="use"><strong>Use it to:</strong> set your opening position and measure success. Source: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-preparation-checklist/">PON — Preparation checklist</a>, item 11.</span>
+    </dd>
+
+    <dt id="zopa">ZOPA <span class="term-id">— Zone Of Possible Agreement</span></dt>
+    <dd>
+      The overlap between your reservation point and theirs. Any deal will land inside this zone; negotiation technique determines <em>where</em> inside it. If there is no overlap, no amount of skill produces a deal — improve your BATNA or change the deal's variables instead.
+      <span class="use"><strong>Use it to:</strong> estimate how much room exists, and recognise when to stop pushing. Source: <a href="https://www.pon.harvard.edu/tag/zone-of-possible-agreement/">PON — ZOPA</a>.</span>
+    </dd>
+
+    <dt id="deal-sheet">Deal sheet</dt>
+    <dd>
+      Our name for the one-page preparation document built in <a href="../lessons/0001-the-deal-sheet.html">Lesson 0001</a>: BATNA → reservation point → aspiration point, plus your best estimate of the other side's BATNA and reservation point. Condensed from PON's 32-question preparation checklist to the items that move price and terms.
+      <span class="use"><strong>Use it to:</strong> prepare every recurring supplier negotiation in under 30 minutes.</span>
+    </dd>
+
+    <dt id="anchoring">Anchoring</dt>
+    <dd>
+      The bias (Kahneman &amp; Tversky) by which the first number introduced pulls all subsequent judgments toward it, even when arbitrary. In negotiation, the first offer frames what feels reasonable. Go first when you know the ZOPA well and can justify the number; effective anchors are <em>ambitious-but-defensible</em> and <em>precise</em> (a computed-looking $2,185 anchors harder than a round $2,200). Taught in <a href="../lessons/0002-anchoring.html">Lesson 0002</a>.
+      <span class="use"><strong>Use it to:</strong> decide who names the first number, and to set yours at your aspiration point with justification attached. Source: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/what-is-anchoring-in-negotiation/">PON — Anchoring</a>.</span>
+    </dd>
+
+    <dt id="anchor-defense">Anchor defense <span class="term-id">— the three-move sequence</span></dt>
+    <dd>
+      When the other side anchors first: <strong>(1) defuse explicitly</strong> ("we're miles apart") so your counter isn't read as bargaining inside their frame; <strong>(2) ask the basis</strong> ("what's that number built on?") — it either informs you or deflates the anchor; <strong>(3) re-anchor</strong> with your own precise, justified number. Never respond with a small counter-adjustment — that validates their frame.
+      <span class="use"><strong>Use it to:</strong> answer any opening quote, "list price," or "our other customers pay" move. Source: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/what-is-anchoring-in-negotiation/">PON — Anchoring</a>, §defense.</span>
+    </dd>
+    <dt id="interests-positions">Interests vs. positions</dt>
+    <dd>
+      A <em>position</em> is the stated demand ("$2,350, firm"); an <em>interest</em> is the motivation behind it (cash flow, capacity utilization, predictability, quarter-end targets, reference value). Incompatible positions often hide compatible interests — change what's behind the position and the position moves. Second principle of <em>Getting to Yes</em>. Taught in <a href="../lessons/0004-interests-and-logrolling.html">Lesson 0004</a>.
+      <span class="use"><strong>Use it to:</strong> probe behind every "firm" number — "what would have to be true for a better price to work?" Source: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/principled-negotiation-focus-interests-create-value/">PON — Principled Negotiation</a>.</span>
+    </dd>
+
+    <dt id="logrolling">Logrolling</dt>
+    <dd>
+      Trading across issues based on <em>different valuations</em>: give what costs you little but they value highly (payment terms, volume commitment), take the reverse (lead time, warranty). The valuation gap is created value — the pie literally grows. Requires multiple issues kept open as a package: <strong>nothing is agreed until everything is agreed</strong> — settling price first destroys the trading currency. Safe to share priorities; never limits.
+      <span class="use"><strong>Use it to:</strong> build the variable map (Lesson 0004 §3) before any multi-issue negotiation. Sources: <a href="https://www.pon.harvard.edu/tag/logrolling/">PON — Logrolling</a>, <a href="https://www.pon.harvard.edu/daily/conflict-resolution/got-issues-in-negotiation-the-more-the-better-nb/">PON — Capitalize on Multiple Issues</a>.</span>
+    </dd>
+
+    <dt id="concession-ladder">Concession ladder</dt>
+    <dd>
+      A pre-planned sequence of 3–4 concession installments from your anchor toward (never to) your reservation point, each step <em>smaller</em> than the last and each priced with a label (what it costs you) and a defined return (what it must buy). The shrinking steps signal a believable approach to your limit. Built in <a href="../lessons/0003-concession-strategy.html">Lesson 0003</a>.
+      <span class="use"><strong>Use it to:</strong> plan, before the meeting, exactly how you'll close the gap the anchors opened. Source: <a href="https://www.pon.harvard.edu/daily/business-negotiations/the-installment-plan/">PON — The Installment Plan</a>.</span>
+    </dd>
+
+    <dt id="four-concession-strategies">Malhotra's four concession strategies</dt>
+    <dd>
+      <strong>① Label</strong> every concession (state its cost to you and benefit to them — unlabeled concessions create no obligation). <strong>② Demand and define reciprocity</strong> (name the exact return you want, or they'll pay in their cheapest currency). <strong>③ Contingent concessions</strong> ("only if you…") for low-trust or unresponsive counterparts — sparingly with long-term suppliers, where overuse reads self-serving. <strong>④ Installments</strong>, shrinking, because gains in pieces land better and the narrowing telegraphs your limit.
+      <span class="use"><strong>Use it to:</strong> make every concession either extract value or build goodwill — never neither. Source: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/four-strategies-for-making-concessions/">PON — Four Strategies for Making Concessions</a>.</span>
+    </dd>
+    <dt id="tactical-empathy">Tactical empathy <span class="term-id">— mirror · label · empathy loop</span></dt>
+    <dd>
+      Understanding the counterpart's viewpoint and <em>saying so out loud</em> — acknowledgment without agreement, which costs nothing of substance. Tools, in escalating force: <strong>mirror</strong> (repeat their last 1–3 significant words as a question, then silence — PON research: mimicking negotiators achieved the highest joint and individual outcomes), <strong>label</strong> ("it seems like…" — confirmed builds rapport, corrected yields intelligence), and the <strong>empathy loop</strong> (inquire → respond → verify understanding) until they say "that's right" — the moment the defended mind opens. Never stack tools mechanically; never mirror negative-emotion words.
+      <span class="use"><strong>Use it to:</strong> apply pressure that doesn't bruise a long-term relationship. Taught in <a href="../lessons/0005-calibrated-questions.html">Lesson 0005</a>. Sources: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-research-you-can-use-to-build-rapport-be-a-subtle-copycat-nb/">PON — Subtle Copycat</a>, <a href="https://www.pon.harvard.edu/glossary/empathy-loop/">PON — Empathy Loop</a>.</span>
+    </dd>
+
+    <dt id="calibrated-question">Calibrated question</dt>
+    <dd>
+      An open-ended question starting with <strong>how</strong> or <strong>what</strong> (never <em>why</em> — it accuses) that hands your constraint to the counterpart as a problem to solve: "How am I supposed to take an 8% increase to my management?" A refusal dressed as a request for help — nothing to push back against. Tone is the weapon: delivered flat, it's an accusation; delivered genuinely, it makes them design your solution. From Voss, <em>Never Split the Difference</em>.
+      <span class="use"><strong>Use it to:</strong> voice the anchor defense, the interest probe, and any "no" you need to say without saying it. Taught in <a href="../lessons/0005-calibrated-questions.html">Lesson 0005</a>.</span>
+    </dd>
+  </dl>
+
+  <div class="chain">
+    <strong>The preparation chain:</strong><br>
+    <code>BATNA (real alternative) → reservation point (this-deal walk-away) → aspiration point (target) → estimate theirs → ZOPA</code><br>
+    Power flows left to right: a weak BATNA poisons everything downstream.
+  </div>
+
+  <footer>
+    Workspace reference · grows with each lesson · <a href="../index.html">Course Index</a> · <a href="anchoring-edge-cases.html">Anchoring Edge Cases</a>
+  </footer>
+</div>
+</body>
+</html>

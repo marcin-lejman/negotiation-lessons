@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 0005 — Calibrated Questions &amp; Tactical Empathy</title>
+<style>
+  :root {
+    --ink: #1a1f2e;
+    --muted: #5c6470;
+    --accent: #0d5c4d;
+    --accent-soft: #e8f2ef;
+    --warn: #9a3412;
+    --warn-soft: #fdf0e7;
+    --good: #166534;
+    --good-soft: #ecf7ee;
+    --bad: #991b1b;
+    --bad-soft: #fcecec;
+    --rule: #e3e6ea;
+    --paper: #fdfdfb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper); color: var(--ink);
+    margin: 0; line-height: 1.65; font-size: 1.02rem;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  nav.course {
+    display: flex; align-items: baseline; gap: .8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem;
+    margin-bottom: 1.6rem; color: var(--muted);
+  }
+  nav.course a { color: var(--accent); text-decoration: none; }
+  nav.course a:hover { text-decoration: underline; }
+  nav.course .grow { flex: 1; }
+  @media print { nav.course { display: none; } }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .4rem;
+  }
+  h1 { font-size: 2.1rem; margin: 0; font-weight: 600; line-height: 1.2; }
+  .promise { color: var(--muted); margin-top: .6rem; font-style: italic; }
+  h2 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.15rem; margin: 2.6rem 0 .8rem; letter-spacing: .02em;
+  }
+  h2 .n { color: var(--accent); margin-right: .5rem; }
+  h3.tool {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 1rem;
+    margin: 1.8rem 0 .5rem; color: var(--accent);
+  }
+  a { color: var(--accent); }
+  .mission-tie {
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .term { font-weight: 700; color: var(--accent); }
+  .say {
+    font-style: italic; color: var(--muted); display: block;
+    border-left: 3px solid var(--rule); padding-left: .9rem; margin: .5rem 0;
+  }
+  .dialogue {
+    border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1.2rem 1.4rem; margin: 1.4rem 0; background: #fff;
+  }
+  .dialogue h3 {
+    margin: 0 0 .6rem; font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  }
+  .dialogue p { margin: .55rem 0; }
+  .dialogue .who { font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 700; font-size: .85rem; }
+  .dialogue .note { font-size: .85rem; color: var(--accent); font-family: 'Helvetica Neue', Arial, sans-serif; }
+  .trap {
+    background: var(--warn-soft); border-left: 4px solid var(--warn);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .trap strong { color: var(--warn); }
+  /* Quiz */
+  .quiz { counter-reset: q; margin-top: 1rem; }
+  .q {
+    border: 1px solid var(--rule); border-radius: 8px; background: #fff;
+    padding: 1.1rem 1.3rem; margin: 1.2rem 0;
+  }
+  .q p.stem { margin: 0 0 .8rem; font-weight: 600; }
+  .q p.stem::before {
+    counter-increment: q; content: "Q" counter(q) " · ";
+    color: var(--accent); font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .q button.opt {
+    display: block; width: 100%; text-align: left;
+    font-family: Georgia, serif; font-size: .95rem;
+    background: #fafaf8; border: 1px solid var(--rule); border-radius: 6px;
+    padding: .6rem .9rem; margin: .4rem 0; cursor: pointer; color: var(--ink);
+    transition: background .15s;
+  }
+  .q button.opt:hover { background: var(--accent-soft); }
+  .q button.opt.correct { background: var(--good-soft); border-color: var(--good); }
+  .q button.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .q .explain { display: none; margin-top: .7rem; padding: .7rem .9rem; border-radius: 6px; font-size: .92rem; }
+  .q .explain.shown { display: block; }
+  .q .explain.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .q .explain.bad { background: var(--bad-soft); border-left: 3px solid var(--bad); }
+  .score {
+    display: none; margin: 1.5rem 0; padding: 1rem 1.2rem; border-radius: 8px;
+    background: var(--accent-soft); border-left: 4px solid var(--accent); font-weight: 600;
+  }
+  .followup {
+    background: var(--accent-soft); border-radius: 8px; padding: 1rem 1.3rem;
+    margin-top: 2.5rem; font-size: .95rem;
+  }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); }
+  @media print {
+    .quiz, .followup, .score { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="course">
+    <span><a href="0004-interests-and-logrolling.html">← 0004 · Interests, Not Positions</a></span>
+    <span class="grow"></span>
+    <a href="../index.html">⌂ Course Index</a>
+    <span class="grow"></span>
+    <span>Next: 0006 · MESOs (planned)</span>
+  </nav>
+  <header>
+    <p class="kicker">Lesson 0005 · Contract Negotiation · ~15 minutes</p>
+    <h1>Calibrated Questions &amp; Tactical Empathy</h1>
+    <p class="promise">Everything so far decided <em>what</em> to say. This is <em>how</em> to say it so pressure lands without bruising — and so they do the work of solving your problem.</p>
+  </header>
+
+  <div class="mission-tie">
+    <strong>Builds on Lessons 0002–0004.</strong> You already own the moves that need a voice: the anchor defense ("what's that built on?"), the interest probes, the concession labels. This lesson is the delivery layer — drawn from FBI negotiator Chris Voss's <em>Never Split the Difference</em> (in your <a href="../RESOURCES.md">resources</a>) and corroborated by independent PON research on <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-research-you-can-use-to-build-rapport-be-a-subtle-copycat-nb/">linguistic mimicry</a> and the <a href="https://www.pon.harvard.edu/glossary/empathy-loop/">empathy loop</a>. For someone optimizing price <em>and</em> relationship, this layer is what lets you push hard while the supplier leaves the room feeling heard.
+  </div>
+
+  <h2><span class="n">1.</span> Tactical empathy: pressure that doesn't bruise</h2>
+
+  <p><span class="term">Tactical empathy</span> is understanding the other side's feelings and viewpoint <em>and saying so out loud</em> — not to be nice, but because a counterpart who feels understood drops their guard, shares more, and defends less. It is not agreement and costs you nothing of substance: you can fully acknowledge that an 8% increase "makes sense from where they sit" and still pay none of it. PON's crisis-negotiation research backs the posture: explore the emotions driving demands before disputing the demands themselves, and let time cool what argument can't (<a href="https://www.pon.harvard.edu/daily/conflict-resolution/hostage-negotiation-tips-for-business-negotiators/">PON: Hostage Negotiation Tips for Business Negotiators</a>).</p>
+
+  <p>Three tools implement it, in escalating order of force:</p>
+
+  <h3 class="tool">① Mirror — repeat their last few words, as a question</h3>
+  <p>The smallest tool with the most leverage per word: repeat the last one-to-three significant words with rising intonation, then stay silent. It feels like curiosity, and it makes people elaborate — which is how you get the information your variable map is missing. The research support is solid: negotiators who deliberately mimicked their counterpart's language achieved the <em>highest joint and individual outcomes</em>; mirroring question words and assent words built trust and value, with one caveat — keep it subtle, and never mirror negative-emotion words back (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-research-you-can-use-to-build-rapport-be-a-subtle-copycat-nb/">PON: Be a (Subtle) Copycat</a>).</p>
+  <span class="say">Rep: "We have no choice — our input costs have exploded." &nbsp;You: "Exploded?" &nbsp;<em>(…and the real breakdown follows: which inputs, how much, since when.)</em></span>
+
+  <h3 class="tool">② Label — name the emotion or position, tentatively</h3>
+  <p>"It seems like…", "It sounds like…", "It looks like…" — then the thing you're observing. A label defuses negative emotion by naming it, and surfaces what's unsaid without demanding anything. Tentative phrasing matters: if the label is wrong, they correct you, and the correction is information. This is the same "labeling" muscle as Lesson 0003's concession labels — there you labeled <em>your</em> moves; here you label <em>their</em> state.</p>
+  <span class="say">"It seems like you're under real pressure to hold list price on this line." &nbsp;·&nbsp; "It sounds like the delivery schedule is what's making this hard for you."</span>
+
+  <h3 class="tool">③ Calibrated questions — make them solve your problem</h3>
+  <p>A <span class="term">calibrated question</span> is open-ended, starts with <strong>how</strong> or <strong>what</strong> (never <em>why</em> — it reads as accusation), and hands your constraint to them as a problem to solve. It applies pressure with zero confrontation: there's nothing to push back against, because you asked for help. The flagship is Voss's <em>"How am I supposed to do that?"</em> — a refusal that arrives dressed as a request.</p>
+  <span class="say">"How am I supposed to take an 8% increase to my management?" &nbsp;·&nbsp; "What would it take to keep this at current pricing?" &nbsp;·&nbsp; "How do we make this work inside our project budget?"</span>
+  <p>Notice these are your existing moves, re-voiced: "what's that number built on?" (anchor defense, Lesson 0002) and "what would have to be true for a better price?" (interest probe, Lesson 0004) were calibrated questions all along.</p>
+
+  <p>The three tools chain into PON's <a href="https://www.pon.harvard.edu/glossary/empathy-loop/">empathy loop</a>: inquire → they respond → demonstrate understanding and <em>check it</em> ("so if I'm hearing right, the increase is mostly the compressors — is that fair?"). Loop until they say "that's right" — then, and only then, move to your number.</p>
+
+  <div class="trap">
+    <strong>The script trap.</strong> Two failure modes kill these tools. First, stacking them mechanically — three mirrors and two labels in a row reads as technique, and the PON mimicry research is explicit that obvious copying backfires. Use one tool, then <em>listen</em>; silence after a mirror or label is where the work happens. Second, calibrated questions with a hostile tone aren't calibrated — "How am I supposed to do that?" delivered flat is an accusation. The deferential frame is the weapon: you're genuinely asking. With a four-year supplier, one honest "help me understand" outperforms five clever ones.
+  </div>
+
+  <h2><span class="n">2.</span> Worked example: the price-increase letter</h2>
+
+  <div class="dialogue">
+    <h3>Scenario · Coldline announces an 8% increase, effective next quarter</h3>
+    <p><span class="who">Rep:</span> "Steel and compressors are up across the market. The 8% just passes our costs through — every customer is getting the same letter."</p>
+    <p><span class="who">You:</span> "The same letter?" <span class="note">← mirror</span></p>
+    <p><span class="who">Rep:</span> "Well — the standard accounts, yes. Strategic accounts we're handling case by case."</p>
+    <p><span class="who">You:</span> "It sounds like there's a process for accounts like ours that the letter doesn't capture." <span class="note">← label</span></p>
+    <p><span class="who">Rep:</span> "There's some flexibility for committed-volume customers, but I'd need numbers to take to my director."</p>
+    <p><span class="who">You:</span> "So if I'm hearing right: the increase is real cost pass-through, but committed volume gives your director room to move. Is that fair?" <span class="note">← empathy loop check</span></p>
+    <p><span class="who">Rep:</span> "That's right."</p>
+    <p><span class="who">You:</span> "Then help me out — how do we structure next year's volume so that 8% doesn't reach us?" <span class="note">← calibrated question; the rep now builds YOUR proposal</span></p>
+  </div>
+
+  <p>Count what was spent: zero concessions, zero confrontation. Two minutes of tactical empathy converted a broadcast price increase into a volume-for-price logroll — designed by <em>their</em> side. The mirror found the crack ("same letter… well, not exactly"), the label widened it, the loop confirmed the trade space, and the calibrated question handed them the pen. That's the full stack from Lessons 0001–0005 working as one system.</p>
+
+  <h2><span class="n">3.</span> Check yourself</h2>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-correct="b">
+      <p class="stem">The rep says: "Honestly, my hands are tied — pricing comes from headquarters now." Best immediate response?</p>
+      <button class="opt" data-k="a">"Why are your hands tied? You're the account manager."</button>
+      <button class="opt" data-k="b">"Tied how?" — then silence</button>
+      <button class="opt" data-k="c">"Fine — then let's get someone from headquarters on the next call."</button>
+      <div class="explain good">Right — a two-word mirror. "Tied how?" invites the rep to explain the actual constraint structure: who sets pricing, what exceptions exist, what paperwork moves a price. That's the information your next move needs, and it cost nothing. "Why"-questions read as accusations, and escalating past the rep (c) burns your best ally — the person who knows where the exceptions live.</div>
+      <div class="explain bad">"Why" puts the rep on trial — defensiveness closes the information tap (Voss is explicit: how/what, never why). Escalating to headquarters (c) might eventually be right, but as a first move it humiliates a counterpart you need across many future deals. The mirror ("tied how?") is the cheapest move on the board: it opens the constraint up for inspection while sounding like pure curiosity.</div>
+    </div>
+
+    <div class="q" data-correct="c">
+      <p class="stem">You label: "It seems like the lead-time commitment is the part your team is worried about." The rep replies: "No — lead time is fine. It's the penalty clause our legal won't sign." What just happened?</p>
+      <button class="opt" data-k="a">The label failed — you misread them and lost credibility</button>
+      <button class="opt" data-k="b">The label worked because it showed empathy, even though it was wrong</button>
+      <button class="opt" data-k="c">The label worked exactly as designed — the correction handed you the real blocker, which you'd otherwise still be guessing at</button>
+      <div class="explain good">Yes. A tentative label ("it seems like…") wins both ways: confirmed, you've built rapport and verified your map; corrected, the counterpart volunteers the true obstacle — here, the penalty clause — which is worth more than the rapport. This is why labels are phrased tentatively: they're probes wearing empathy's clothes. Now you know exactly which variable to logroll against.</div>
+      <div class="explain bad">There's no credibility loss in a tentative label being corrected — "it seems like" claims observation, not certainty, so a correction is a conversation, not a defeat. And the win isn't the empathy display either: it's the intelligence. You went in guessing lead time; you came out knowing it's the penalty clause. The negotiation just got a precise target it didn't have one sentence ago.</div>
+    </div>
+
+    <div class="q" data-correct="a">
+      <p class="stem">Coldline holds firm: "The 8% stands. We've absorbed costs for two years; we can't anymore." You believe them, but 8% breaks your project budget. Which response best uses this lesson?</p>
+      <button class="opt" data-k="a">"I hear you — two years of absorbing costs is real, and I won't pretend otherwise. So how do we make this work inside a budget that was set before your letter went out?"</button>
+      <button class="opt" data-k="b">"If the 8% stands, we'll have to take the volume to FrostTech — your call."</button>
+      <button class="opt" data-k="c">"Let's split it — 4% now, and we revisit the rest next year."</button>
+      <div class="explain good">Right — acknowledge fully, concede nothing, hand them the problem. The label validates their two years (free, and true), then the calibrated question makes your budget constraint <em>their</em> design problem: phased increases, volume commitments, spec changes, effective-date deferrals — solutions they can propose and own. The threat (b) spends relationship capital on a bluff your Lesson 0001 sheet may not support, and the instant split (c) is an unlabeled, untraded concession — Lesson 0003's cardinal sin, committed in the name of fairness. The book's title is literally <em>Never Split the Difference</em>.</div>
+      <div class="explain bad">The threat (b) might be a real option — but as a <em>first</em> response it converts a solvable joint problem into a face-off, and your deal sheet has to back it or it's a bluff a four-year supplier may call. Splitting (c) feels fair and violates everything from Lesson 0003: unlabeled, untraded, and it teaches them that announced increases get half-paid. The strong move costs nothing: validate their reality out loud, then ask how <em>they</em> would fit their increase inside your budget — and let them invent the logroll.</div>
+    </div>
+
+    <div class="q" data-correct="b">
+      <p class="stem">In the empathy loop, why do you keep going until the counterpart says "that's right" (or equivalent) before making your move?</p>
+      <button class="opt" data-k="a">Because agreement on the facts means they've effectively accepted your position</button>
+      <button class="opt" data-k="b">Because until they feel fully understood, anything you propose lands on a defended mind — and "that's right" marks the moment the defending stops</button>
+      <button class="opt" data-k="c">It's a politeness convention that signals the listening phase is over</button>
+      <div class="explain good">Exactly. "That's right" isn't agreement with your position — it's their confirmation that you've accurately captured <em>theirs</em>. That's the moment the guard drops: a counterpart busy correcting your understanding of their situation can't simultaneously consider your proposal. PON's empathy loop is explicit about the checking step — demonstrate understanding and <em>test it</em> — because an unverified summary that's slightly wrong reads as manipulation, while a verified one buys you an undefended hearing.</div>
+      <div class="explain bad">"That's right" concedes nothing about your position — they're confirming you understood <em>theirs</em> (a is exactly the confusion to avoid; beware its cousin "you're right," which often means "stop talking"). And it's far from etiquette: it's a state change. Until a counterpart feels accurately understood, proposals hit a defended mind and get counterargued reflexively. The verified summary is what disarms the reflex — which is why the loop checks understanding instead of assuming it.</div>
+    </div>
+
+    <div class="score" id="score"></div>
+  </div>
+
+  <h2><span class="n">4.</span> Your win: one tool, three days <span style="font-weight:400;color:var(--muted);font-size:.85em">(no negotiation required)</span></h2>
+  <p>Unlike the planning artifacts in your weekend bundle, this skill trains anywhere. For the next three days, in ordinary work conversations:</p>
+  <ol>
+    <li><strong>Day 1 — mirrors only.</strong> Twice a day, repeat someone's last few words as a question and go silent. Watch how much more they say.</li>
+    <li><strong>Day 2 — labels.</strong> Twice, name what someone seems to feel or want: "it sounds like the deadline is the real worry." Note whether you get a "that's right" or a correction — both are wins.</li>
+    <li><strong>Day 3 — calibrated questions.</strong> Replace one refusal or pushback with "how would we…?" or "what would it take to…?"</li>
+  </ol>
+  <p>This is deliberately low-stakes: the tools must be reflexive before they'll survive a tense supplier meeting. Tell me what happened — especially anything that felt awkward, because that's usually the script trap, and it's fixable with phrasing.</p>
+
+  <div class="followup">
+    <strong>Questions?</strong> Ask me in the terminal: what to do when the other side uses these techniques on you, how tactical empathy works over email instead of voice, the difference between "that's right" and "you're right," or anything else unclear.
+  </div>
+
+  <footer>
+    Lesson 0005 · <a href="../index.html">Course Index</a> · <a href="../reference/glossary.html">Glossary</a> · Previous: <a href="0004-interests-and-logrolling.html">Interests, Not Positions</a> · Next up: multi-issue offers (MESOs)<br>
+    Sources: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-research-you-can-use-to-build-rapport-be-a-subtle-copycat-nb/">PON: To Build Rapport, Be a (Subtle) Copycat</a> · <a href="https://www.pon.harvard.edu/glossary/empathy-loop/">PON: Empathy Loop</a> · <a href="https://www.pon.harvard.edu/daily/conflict-resolution/hostage-negotiation-tips-for-business-negotiators/">PON: Hostage Negotiation Tips for Business Negotiators</a> · Voss &amp; Raz, <em>Never Split the Difference</em> (see <a href="../RESOURCES.md">RESOURCES.md</a>)
+  </footer>
+</div>
+
+<script>
+(function () {
+  var qs = Array.prototype.slice.call(document.querySelectorAll('.q'));
+  var answered = 0, correct = 0;
+  qs.forEach(function (q) {
+    var done = false;
+    q.querySelectorAll('button.opt').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (done) return;
+        done = true;
+        answered++;
+        var isRight = btn.dataset.k === q.dataset.correct;
+        if (isRight) correct++;
+        q.querySelectorAll('button.opt').forEach(function (b) {
+          if (b.dataset.k === q.dataset.correct) b.classList.add('correct');
+          else if (b === btn) b.classList.add('wrong');
+          b.style.cursor = 'default';
+        });
+        q.querySelector(isRight ? '.explain.good' : '.explain.bad').classList.add('shown');
+        if (answered === qs.length) {
+          var s = document.getElementById('score');
+          s.style.display = 'block';
+          s.textContent = 'Score: ' + correct + '/' + qs.length + ' — ' +
+            (correct === 4 ? 'Solid. Run the three-day drill (section 4) — these tools only work as reflexes.' :
+             correct >= 2 ? 'Good. Re-read what you missed, then run the three-day drill (section 4).' :
+             'Re-read sections 1–2, then start the three-day drill gently. Ask your teacher about anything unclear.');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

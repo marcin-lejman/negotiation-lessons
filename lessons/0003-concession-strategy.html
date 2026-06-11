@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 0003 — Concession Strategy</title>
+<style>
+  :root {
+    --ink: #1a1f2e;
+    --muted: #5c6470;
+    --accent: #0d5c4d;
+    --accent-soft: #e8f2ef;
+    --warn: #9a3412;
+    --warn-soft: #fdf0e7;
+    --good: #166534;
+    --good-soft: #ecf7ee;
+    --bad: #991b1b;
+    --bad-soft: #fcecec;
+    --rule: #e3e6ea;
+    --paper: #fdfdfb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper); color: var(--ink);
+    margin: 0; line-height: 1.65; font-size: 1.02rem;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  nav.course {
+    display: flex; align-items: baseline; gap: .8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem;
+    margin-bottom: 1.6rem; color: var(--muted);
+  }
+  nav.course a { color: var(--accent); text-decoration: none; }
+  nav.course a:hover { text-decoration: underline; }
+  nav.course .grow { flex: 1; }
+  @media print { nav.course { display: none; } }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .4rem;
+  }
+  h1 { font-size: 2.1rem; margin: 0; font-weight: 600; line-height: 1.2; }
+  .promise { color: var(--muted); margin-top: .6rem; font-style: italic; }
+  h2 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.15rem; margin: 2.6rem 0 .8rem; letter-spacing: .02em;
+  }
+  h2 .n { color: var(--accent); margin-right: .5rem; }
+  h3.strategy {
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 1rem;
+    margin: 1.8rem 0 .5rem; color: var(--accent);
+  }
+  a { color: var(--accent); }
+  .mission-tie {
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .term { font-weight: 700; color: var(--accent); }
+  .rule-box {
+    font-family: 'SF Mono', Menlo, monospace; font-size: .82rem;
+    background: #f4f5f3; border: 1px solid var(--rule); border-radius: 6px;
+    padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre;
+    line-height: 1.9;
+  }
+  .say {
+    font-style: italic; color: var(--muted); display: block;
+    border-left: 3px solid var(--rule); padding-left: .9rem; margin: .5rem 0;
+  }
+  .scenario {
+    border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1.2rem 1.4rem; margin: 1.4rem 0; background: #fff;
+  }
+  .scenario h3 {
+    margin: 0 0 .6rem; font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .95rem; }
+  th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  td.num { font-family: 'SF Mono', Menlo, monospace; font-size: .85rem; white-space: nowrap; }
+  .trap {
+    background: var(--warn-soft); border-left: 4px solid var(--warn);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .trap strong { color: var(--warn); }
+  /* Quiz */
+  .quiz { counter-reset: q; margin-top: 1rem; }
+  .q {
+    border: 1px solid var(--rule); border-radius: 8px; background: #fff;
+    padding: 1.1rem 1.3rem; margin: 1.2rem 0;
+  }
+  .q p.stem { margin: 0 0 .8rem; font-weight: 600; }
+  .q p.stem::before {
+    counter-increment: q; content: "Q" counter(q) " · ";
+    color: var(--accent); font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .q button.opt {
+    display: block; width: 100%; text-align: left;
+    font-family: Georgia, serif; font-size: .95rem;
+    background: #fafaf8; border: 1px solid var(--rule); border-radius: 6px;
+    padding: .6rem .9rem; margin: .4rem 0; cursor: pointer; color: var(--ink);
+    transition: background .15s;
+  }
+  .q button.opt:hover { background: var(--accent-soft); }
+  .q button.opt.correct { background: var(--good-soft); border-color: var(--good); }
+  .q button.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .q .explain { display: none; margin-top: .7rem; padding: .7rem .9rem; border-radius: 6px; font-size: .92rem; }
+  .q .explain.shown { display: block; }
+  .q .explain.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .q .explain.bad { background: var(--bad-soft); border-left: 3px solid var(--bad); }
+  .score {
+    display: none; margin: 1.5rem 0; padding: 1rem 1.2rem; border-radius: 8px;
+    background: var(--accent-soft); border-left: 4px solid var(--accent); font-weight: 600;
+  }
+  .followup {
+    background: var(--accent-soft); border-radius: 8px; padding: 1rem 1.3rem;
+    margin-top: 2.5rem; font-size: .95rem;
+  }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); }
+  @media print {
+    .quiz, .followup, .score { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="course">
+    <span><a href="0002-anchoring.html">← 0002 · Anchoring</a></span>
+    <span class="grow"></span>
+    <a href="../index.html">⌂ Course Index</a>
+    <span class="grow"></span>
+    <span>Next: <a href="0004-interests-and-logrolling.html">0004 · Interests, Not Positions →</a></span>
+  </nav>
+  <header>
+    <p class="kicker">Lesson 0003 · Contract Negotiation · ~15 minutes</p>
+    <h1>Concession Strategy</h1>
+    <p class="promise">The anchors are set and the gap is open. How you close it decides both what you pay and what the relationship looks like afterward.</p>
+  </header>
+
+  <div class="mission-tie">
+    <strong>Builds on Lessons 0001–0002.</strong> Your deal sheet bounds the game; your anchor opens it. Everything between the opening numbers and the handshake is concessions — and this is the lesson where "best price" and "long-term relationship" stop competing: done right, every concession extracts value <em>and</em> builds goodwill at the same time.
+  </div>
+
+  <h2><span class="n">1.</span> The one rule</h2>
+
+  <p>Unplanned negotiators treat concessions as lubricant — give a bit, keep things friendly, meet in the middle. Research says concessions are <em>moves</em>, and wasted unless the other side registers them. The whole discipline compresses to one rule:</p>
+
+  <div class="rule-box">NEVER FREE.  Every concession is labeled, traded, and shrinking.
+
+  labeled   → they know it cost you something
+  traded    → it buys a defined concession back
+  shrinking → each move is smaller than the last,
+              signalling you're approaching your limit</div>
+
+  <p>The framework is Harvard Business School professor Deepak Malhotra's four strategies (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/four-strategies-for-making-concessions/">PON: Four Strategies for Making Concessions</a>). Two protect your value; two — strikingly — are about building the relationship while you do it.</p>
+
+  <h2><span class="n">2.</span> The four strategies</h2>
+
+  <h3 class="strategy">① Label your concessions</h3>
+  <p>Counterparts are motivated to <em>overlook</em> your concessions — an unnoticed concession creates no obligation to reciprocate. So make each one salient: say what it costs you, and frame the benefit to them. And move slowly off your opening — if you abandon your anchor instantly, leaving it registers as nothing (which is also why Lesson 0002 said the anchor must be defensible, not frivolous).</p>
+  <span class="say">"Moving on price isn't easy for us — this comes straight out of the project margin. But it puts you well below what anyone else is quoting you'd match."</span>
+
+  <h3 class="strategy">② Demand — and define — reciprocity</h3>
+  <p>Labeling triggers the social norm of reciprocity; defining tells them <em>how</em> to pay. This is the step most negotiators skip, and the cost of skipping it is subtle: a counterpart left to choose will reciprocate with whatever is cheapest <em>for them</em>, not what's valuable to you.</p>
+  <span class="say">"We've made a real adjustment on price. That should make it easier on your side to move the delivery up — hitting week 6 instead of week 9 would help us immeasurably."</span>
+
+  <h3 class="strategy">③ Contingent concessions</h3>
+  <p>When goodwill is met with silence, link the concession explicitly: it only exists if the named return-concession does. Malhotra calls these "nearly risk-free" — you signal flexibility while making exploitation impossible.</p>
+  <span class="say">"We can take the extended warranty into the price — but only if the payment terms move to net 60."</span>
+
+  <h3 class="strategy">④ Concessions in installments</h3>
+  <p>Tversky and Kahneman again: people prefer good news in pieces. Two concessions of $30k then $10k land better than one of $40k — and the shrinking sequence (45 → 25 → 11, never 10 → 20 → 40) tells a story: <em>the well is running dry</em>. A growing sequence tells the opposite story and invites them to keep digging. Bonus: conceding in installments means you may shake hands before spending your full budget — and each installment is one more goodwill moment with a recurring supplier.</p>
+
+  <div class="trap">
+    <strong>The contingency trap.</strong> Malhotra's warning, and it's aimed at relationships like yours: if <em>every</em> concession arrives with strings attached, you read as self-serving rather than cooperative, and trust erodes (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/four-strategies-for-making-concessions/">PON</a>). With long-term suppliers, default to label-and-define (①+②); save explicit contingency (③) for low trust, one-shot deals, or counterparts who pocketed a labeled concession without responding. And reciprocate <em>their</em> labeled concessions visibly — acknowledging their moves is what compounds into the relationship capital you're optimizing for.
+  </div>
+
+  <h2><span class="n">3.</span> Worked example: the concession ladder</h2>
+
+  <div class="scenario">
+    <h3>Scenario · Coldline annual renewal, continued from Lesson 0002</h3>
+    <p>Deal sheet: aspiration <strong>$2,185</strong> (your anchor, already placed), reservation <strong>$2,390</strong>. Coldline counters at $2,350. Before the meeting you planned a <strong>concession ladder</strong> — your installments, each with its label and its price:</p>
+    <table>
+      <tr><th>Move</th><th>Price</th><th>Step</th><th>Traded for / label</th></tr>
+      <tr><td>Anchor</td><td class="num">$2,185</td><td class="num">—</td><td>"Volume + competing quotes" (Lesson 0002)</td></tr>
+      <tr><td>1st concession</td><td class="num">$2,230</td><td class="num">+45</td><td>Defined trade: delivery to week 6</td></tr>
+      <tr><td>2nd concession</td><td class="num">$2,255</td><td class="num">+25</td><td>Labeled: "out of project margin" + net 60 payment</td></tr>
+      <tr><td>3rd concession</td><td class="num">$2,266</td><td class="num">+11</td><td>"That's genuinely the end of the room."</td></tr>
+    </table>
+    <p style="margin-bottom:0">Three things to notice. The steps shrink (45 → 25 → 11): by move three, Coldline can <em>read</em> that you're at the wall, so the $11 figure is more believable than a round "final" $2,275 would be. Every step buys something defined — delivery, payment terms — so even your concessions improved the deal. And the ladder ends at $2,266, deep below your $2,390 reservation: planned installments mean you rarely spend the whole budget. Compare the unplanned version: anchor $2,185, panic under pushback, jump to $2,300 "to show good faith" — one unlabeled, untraded move that spends $115 and buys nothing, then invites the next squeeze.</p>
+  </div>
+
+  <h2><span class="n">4.</span> Check yourself</h2>
+  <p>Feedback is instant, as always.</p>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-correct="c">
+      <p class="stem">You drop your price by $40/unit to keep momentum. The supplier's rep nods, writes it down, and moves to the next topic. What just happened?</p>
+      <button class="opt" data-k="a">Progress — the concession kept the deal moving, which is what it was for</button>
+      <button class="opt" data-k="b">Nothing wrong — they'll reciprocate later in the session, that's how reciprocity works</button>
+      <button class="opt" data-k="c">You gave a free concession: unlabeled and untraded, it created no obligation — and taught them that pressure produces discounts</button>
+      <div class="explain good">Exactly. An unlabeled concession is invisible — counterparts are <em>motivated</em> to overlook it precisely so they don't owe one back (Malhotra). Worse, with a recurring supplier you've now taught a lesson of your own: this buyer moves $40 under light pressure. The fix isn't to never concede — it's to make the same $40 arrive labeled ("this comes out of margin") with a defined return ("which should make week-6 delivery workable").</div>
+      <div class="explain bad">Reciprocity isn't automatic — counterparts deliberately let unlabeled concessions pass unremarked so no obligation forms (Malhotra calls this out explicitly). A concession that buys "momentum" buys nothing: it was never priced, never traded, and it quietly reprices you as someone who moves under pressure. Label it, define the return, or don't make it.</div>
+    </div>
+
+    <div class="q" data-correct="b">
+      <p class="stem">You say: "We've moved meaningfully on price — that wasn't easy for us. We'd expect some flexibility from your side too." The rep replies: "Absolutely — we'll throw in free delivery on the first order." Delivery is worth almost nothing to you; you wanted payment terms. What went wrong?</p>
+      <button class="opt" data-k="a">Nothing — you got reciprocity, which is what the technique promises</button>
+      <button class="opt" data-k="b">You demanded reciprocity but didn't define it — so they paid you back in the currency cheapest for them</button>
+      <button class="opt" data-k="c">You shouldn't have labeled the concession — it invited a token counter-gesture</button>
+      <div class="explain good">Right — this is the step most negotiators skip. Undirected reciprocity gets answered with whatever costs <em>them</em> least, not what's worth most to you. The fix is one added sentence: "…and what would genuinely help us is net 60 on payment." Specific, immediate, and now their token gesture is measured against a named ask. (Labeling was correct — without it you'd have gotten nothing at all.)</div>
+      <div class="explain bad">Labeling was right and reciprocity did arrive — the failure is that it arrived in <em>their</em> currency. Left undirected, counterparts reciprocate with what's cheapest for them (free delivery) rather than what you value (payment terms). Demand <em>and define</em>: name the exact concession you want in the same breath as the label.</div>
+    </div>
+
+    <div class="q" data-correct="a">
+      <p class="stem">Planning your ladder from a $2,185 anchor toward a $2,390 reservation, which sequence of price moves is best designed?</p>
+      <button class="opt" data-k="a">$2,230 → $2,255 → $2,266 — shrinking steps, each tied to a trade</button>
+      <button class="opt" data-k="b">$2,200 → $2,240 → $2,310 — growing steps, holding firm early then showing real flexibility to close</button>
+      <button class="opt" data-k="c">$2,266 in one move — skip the dance, show good faith, save everyone time</button>
+      <div class="explain good">Yes. Shrinking installments (45 → 25 → 11) do three jobs: each one lands as separate good news (Tversky &amp; Kahneman — people prefer gains in pieces), the narrowing telegraphs "approaching the wall" so your endpoint is believable, and each step is a fresh opportunity to trade and build goodwill. Growing steps tell the opposite story — flexibility increasing under pressure — which invites more pressure.</div>
+      <div class="explain bad">Growing steps (b) signal that pressure <em>works better over time</em> — the worst possible message. And the single jump (c) fails twice: counterparts expect rounds, so an instant full concession reads as "there's more hidden" and gets pushed anyway — and you've spent your entire $81 budget in one move with nothing traded for it. Same total, sliced shrinking and traded, beats it on every axis.</div>
+    </div>
+
+    <div class="q" data-correct="c">
+      <p class="stem">Coldline — your supplier of four years — asks for a price adjustment on an add-on order. You can absorb it. Per this lesson, your best move?</p>
+      <button class="opt" data-k="a">"We can do that, but only if you commit in writing to priority production slots for all our future orders" — contingent, always</button>
+      <button class="opt" data-k="b">Just absorb it silently — it's a small ask and four years of relationship matter more than technique</button>
+      <button class="opt" data-k="c">Grant it labeled — "this isn't standard, but the relationship has earned it" — and bank the acknowledged goodwill, no strings attached this time</button>
+      <div class="explain good">Right. This is the contingency trap in reverse: with a high-trust recurring counterpart, making <em>every</em> move contingent reads as self-serving and erodes exactly the relationship capital your mission optimizes for. But silent absorption (b) wastes the move entirely — unlabeled goodwill earns nothing. Label it generously, skip the strings, and the obligation forms anyway — collectable at the annual renewal.</div>
+      <div class="explain bad">Hard contingency (a) on a small ask, with four years of trust behind it, is Malhotra's exact warning: behavior that "appears self-serving rather than cooperative" corrodes long-term relationships. But silence (b) is just as wrong — an invisible favor creates no obligation. The middle path is the labeled free concession: name its cost warmly, attach no strings, and let the reciprocity norm do its work on a counterpart you'll negotiate with for years.</div>
+    </div>
+
+    <div class="score" id="score"></div>
+  </div>
+
+  <h2><span class="n">5.</span> Your win: plan a concession ladder</h2>
+  <p>Extend the deal sheet for your next negotiation with a concession plan — before the meeting, when you're calm:</p>
+  <ol>
+    <li><strong>Budget:</strong> the gap between your anchor and your reservation point is your total concession budget. Decide how much of it you intend to spend.</li>
+    <li><strong>Slice it shrinking:</strong> 3–4 installments, each smaller than the last.</li>
+    <li><strong>Price each step:</strong> write the label (what it costs you) and the defined return (what it buys — payment terms, lead time, volume commitment, warranty) next to each installment. Non-price terms you anchored ambitiously in Lesson 0002 are your cheapest currency here.</li>
+    <li><strong>Pre-write your reciprocity line</strong> for the first concession — label + defined ask, one sentence, rehearsed.</li>
+  </ol>
+  <p>Bring the ladder back with the deal sheet and I'll pressure-test both. The most common flaw I'll be looking for: steps that shrink but trade for nothing.</p>
+
+  <div class="followup">
+    <strong>Questions?</strong> Ask me in the terminal: what to do when <em>they</em> concede in installments at you, how to respond when a counterpart pockets a contingent offer and counters anyway, how ladders work across multiple variables at once, or anything else unclear.
+  </div>
+
+  <footer>
+    Lesson 0003 · <a href="../index.html">Course Index</a> · <a href="../reference/glossary.html">Glossary</a> · Previous: <a href="0002-anchoring.html">Anchoring</a> · Next: <a href="0004-interests-and-logrolling.html">0004 — Interests, Not Positions</a><br>
+    Sources: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/four-strategies-for-making-concessions/">PON: Four Strategies for Making Concessions (Malhotra)</a> · <a href="https://www.pon.harvard.edu/daily/business-negotiations/the-installment-plan/">PON: The Installment Plan</a> · <a href="https://www.pon.harvard.edu/uncategorized/making-concessions-in-negotiation-best-practices/">PON: Making Concessions — Best Practices</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var qs = Array.prototype.slice.call(document.querySelectorAll('.q'));
+  var answered = 0, correct = 0;
+  qs.forEach(function (q) {
+    var done = false;
+    q.querySelectorAll('button.opt').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (done) return;
+        done = true;
+        answered++;
+        var isRight = btn.dataset.k === q.dataset.correct;
+        if (isRight) correct++;
+        q.querySelectorAll('button.opt').forEach(function (b) {
+          if (b.dataset.k === q.dataset.correct) b.classList.add('correct');
+          else if (b === btn) b.classList.add('wrong');
+          b.style.cursor = 'default';
+        });
+        q.querySelector(isRight ? '.explain.good' : '.explain.bad').classList.add('shown');
+        if (answered === qs.length) {
+          var s = document.getElementById('score');
+          s.style.display = 'block';
+          s.textContent = 'Score: ' + correct + '/' + qs.length + ' — ' +
+            (correct === 4 ? 'Solid. Build a real ladder (section 5) and bring it back.' :
+             correct >= 2 ? 'Good. Re-read the explanations you missed, then build a real ladder (section 5).' :
+             'Re-read sections 1–3 before planning a live ladder. Ask your teacher about anything unclear.');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

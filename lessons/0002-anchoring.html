@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 0002 — Anchoring: The First Number</title>
+<style>
+  :root {
+    --ink: #1a1f2e;
+    --muted: #5c6470;
+    --accent: #0d5c4d;
+    --accent-soft: #e8f2ef;
+    --warn: #9a3412;
+    --warn-soft: #fdf0e7;
+    --good: #166534;
+    --good-soft: #ecf7ee;
+    --bad: #991b1b;
+    --bad-soft: #fcecec;
+    --rule: #e3e6ea;
+    --paper: #fdfdfb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper); color: var(--ink);
+    margin: 0; line-height: 1.65; font-size: 1.02rem;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  nav.course {
+    display: flex; align-items: baseline; gap: .8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem;
+    margin-bottom: 1.6rem; color: var(--muted);
+  }
+  nav.course a { color: var(--accent); text-decoration: none; }
+  nav.course a:hover { text-decoration: underline; }
+  nav.course .grow { flex: 1; }
+  @media print { nav.course { display: none; } }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .4rem;
+  }
+  h1 { font-size: 2.1rem; margin: 0; font-weight: 600; line-height: 1.2; }
+  .promise { color: var(--muted); margin-top: .6rem; font-style: italic; }
+  h2 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.15rem; margin: 2.6rem 0 .8rem; letter-spacing: .02em;
+  }
+  h2 .n { color: var(--accent); margin-right: .5rem; }
+  a { color: var(--accent); }
+  .mission-tie {
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .term { font-weight: 700; color: var(--accent); }
+  .decision {
+    font-family: 'SF Mono', Menlo, monospace; font-size: .82rem;
+    background: #f4f5f3; border: 1px solid var(--rule); border-radius: 6px;
+    padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre;
+    line-height: 1.9;
+  }
+  .scenario {
+    border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1.2rem 1.4rem; margin: 1.4rem 0; background: #fff;
+  }
+  .scenario h3 {
+    margin: 0 0 .6rem; font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  }
+  .trap {
+    background: var(--warn-soft); border-left: 4px solid var(--warn);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .trap strong { color: var(--warn); }
+  .moves { margin: 1rem 0; padding: 0; list-style: none; counter-reset: m; }
+  .moves li {
+    counter-increment: m; position: relative; padding: .7rem 1rem .7rem 3rem;
+    border: 1px solid var(--rule); border-radius: 8px; margin: .6rem 0; background: #fff;
+  }
+  .moves li::before {
+    content: counter(m); position: absolute; left: .9rem; top: .75rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-weight: 700;
+    color: #fff; background: var(--accent); border-radius: 50%;
+    width: 1.5rem; height: 1.5rem; display: flex; align-items: center; justify-content: center;
+    font-size: .85rem;
+  }
+  .moves .say { display: block; margin-top: .3rem; font-style: italic; color: var(--muted); }
+  /* Quiz */
+  .quiz { counter-reset: q; margin-top: 1rem; }
+  .q {
+    border: 1px solid var(--rule); border-radius: 8px; background: #fff;
+    padding: 1.1rem 1.3rem; margin: 1.2rem 0;
+  }
+  .q p.stem { margin: 0 0 .8rem; font-weight: 600; }
+  .q p.stem::before {
+    counter-increment: q; content: "Q" counter(q) " · ";
+    color: var(--accent); font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .q button.opt {
+    display: block; width: 100%; text-align: left;
+    font-family: Georgia, serif; font-size: .95rem;
+    background: #fafaf8; border: 1px solid var(--rule); border-radius: 6px;
+    padding: .6rem .9rem; margin: .4rem 0; cursor: pointer; color: var(--ink);
+    transition: background .15s;
+  }
+  .q button.opt:hover { background: var(--accent-soft); }
+  .q button.opt.correct { background: var(--good-soft); border-color: var(--good); }
+  .q button.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .q .explain { display: none; margin-top: .7rem; padding: .7rem .9rem; border-radius: 6px; font-size: .92rem; }
+  .q .explain.shown { display: block; }
+  .q .explain.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .q .explain.bad { background: var(--bad-soft); border-left: 3px solid var(--bad); }
+  .score {
+    display: none; margin: 1.5rem 0; padding: 1rem 1.2rem; border-radius: 8px;
+    background: var(--accent-soft); border-left: 4px solid var(--accent); font-weight: 600;
+  }
+  .followup {
+    background: var(--accent-soft); border-radius: 8px; padding: 1rem 1.3rem;
+    margin-top: 2.5rem; font-size: .95rem;
+  }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); }
+  @media print {
+    .quiz, .followup, .score { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="course">
+    <span><a href="0001-the-deal-sheet.html">← 0001 · The Deal Sheet</a></span>
+    <span class="grow"></span>
+    <a href="../index.html">⌂ Course Index</a>
+    <span class="grow"></span>
+    <span>Next: <a href="0003-concession-strategy.html">0003 · Concession Strategy →</a></span>
+  </nav>
+  <header>
+    <p class="kicker">Lesson 0002 · Contract Negotiation · ~15 minutes</p>
+    <h1>Anchoring: The First Number</h1>
+    <p class="promise">The first number spoken bends every number that follows. Decide deliberately whether it's yours — and know exactly what to do when it's theirs.</p>
+  </header>
+
+  <div class="mission-tie">
+    <strong>Builds on Lesson 0001.</strong> Your deal sheet gave you an <a href="../reference/glossary.html#aspiration-point">aspiration point</a> and an estimated <a href="../reference/glossary.html#zopa">ZOPA</a>. Anchoring is what those numbers are <em>for</em> at the table: the aspiration point becomes your anchor when you go first, and the ZOPA estimate tells you whether you should go first at all.
+  </div>
+
+  <h2><span class="n">1.</span> Why one number bends the whole deal</h2>
+
+  <p><span class="term">Anchoring</span> is the bias Kahneman and Tversky demonstrated in the 1970s: under uncertainty, people give far too much weight to the first number introduced — and adjust insufficiently away from it — <em>even when that number is arbitrary</em>. In their classic study, people who first saw the number 10 guessed African UN membership at 25%; people who saw 65 guessed 45% (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/what-is-anchoring-in-negotiation/">PON: What is Anchoring</a>).</p>
+
+  <p>In a negotiation, the first offer "frames what feels reasonable" for everything after it: a high anchor pulls attention to the offer's positive qualities; a low one highlights its flaws. The supplier's opening quote isn't information about price — it's an attempt to define the playing field. You proved this to yourself in Lesson 0001's quiz: Coldline's $2,400 opener made $2,380 feel like progress, even though your sheet said the zone ran to $2,100.</p>
+
+  <h2><span class="n">2.</span> Should you name the first number?</h2>
+
+  <p>Old advice says never go first — "you'll show your cards." Research disagrees: negotiators who made the first offer consistently <strong>achieved better economic outcomes</strong> (Rosette, Kopelman &amp; Abbott, via <a href="https://www.pon.harvard.edu/daily/dealmaking-daily/resolving-the-first-offer-dilemma-in-business-negotiations/">PON: The First-Offer Dilemma</a>) — provided the anchor is credible. The deciding factor is <em>who knows the ZOPA better</em>:</p>
+
+  <div class="decision">GO FIRST when:
+  • you know the market / the ZOPA well        (your deal sheet is solid)
+  • you can justify the number with data        (quotes, benchmarks, history)
+  • neither side knows the ZOPA well            (your anchor sets the frame)
+
+LET THEM go first when:
+  • they know the ZOPA much better than you     (your anchor would misfire:
+                                                 too timid = money gone,
+                                                 too wild = credibility gone)
+  • you genuinely lack market information       (their number IS information —
+                                                 but treat it as a move, not truth)</div>
+
+  <p>Notice what this means for you specifically: in <em>recurring</em> supplier relationships, where you hold purchase history, competing quotes, and volume data, the conditions for going first are usually met. Your habit of waiting for the supplier's quote — standard procurement reflex — hands them the frame in exactly the situations where research says you should be setting it.</p>
+
+  <p>Two findings sharpen the move:</p>
+  <p><strong>Ambitious but defensible.</strong> The effective anchor is not an extreme bluff — it's your aspiration point, tied to objective standards: "preparation — not bravado — is what makes anchoring effective" (<a href="https://www.pon.harvard.edu/daily/dealmaking-daily/resolving-the-first-offer-dilemma-in-business-negotiations/">PON</a>). An anchor you can't justify when challenged collapses, and takes your credibility with it. This is the same defensibility test from your deal sheet's aspiration line.</p>
+  <p><strong>Precise beats round.</strong> Precise numbers anchor harder than round ones — research found a house listed at $255,500 attracts higher offers than at $255,000 (<a href="https://www.pon.harvard.edu/daily/dealmaking-daily/negotiation-research-can-use-effective-first-offer-strive-precision-nb/">PON: Strive for Precision</a>). A precise figure signals you computed it from something; a round one signals you made it up. Open at $2,185, not $2,200.</p>
+
+  <div class="trap">
+    <strong>The comfort trap.</strong> The same research found first-movers got better outcomes but <em>felt worse</em> — more anxiety, lower satisfaction. Going first works and feels bad; expect that, and don't read your own discomfort as evidence the move was wrong. Rehearse the number out loud before the meeting so it leaves your mouth cleanly.
+  </div>
+
+  <h2><span class="n">3.</span> When the anchor is theirs: the three-move defense</h2>
+
+  <p>You won't always go first — and suppliers anchor you constantly ("list price is...", "our other customers pay..."). PON's countermeasures (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/what-is-anchoring-in-negotiation/">source</a>) compress to three moves, in order:</p>
+
+  <ol class="moves">
+    <li><strong>Name it dead before you counter.</strong> Defuse explicitly so your counter isn't read as bargaining within their range — never haggle from inside their frame.
+      <span class="say">"I'm not trying to play games, but we're miles apart on price. Let me tell you where this actually needs to land."</span></li>
+    <li><strong>Ask for the basis.</strong> Make them justify the number against something objective. Either it has a basis (real information for you) or it doesn't (the anchor publicly deflates).
+      <span class="say">"Help me understand how you got to that figure — what's it built on?"</span></li>
+    <li><strong>Counter with your justified number.</strong> Re-anchor at your aspiration point with its rationale attached — fair, precise, defensible.
+      <span class="say">"Based on our volume this year and the two competing quotes on my desk, $2,185 is where this pencils out."</span></li>
+  </ol>
+
+  <p>What <em>not</em> to do: respond to a wild anchor with a small counter-adjustment ("$2,400? How about $2,350?"). That validates the anchor and concedes the frame — the single most common anchoring loss in procurement.</p>
+
+  <h2><span class="n">4.</span> Check yourself</h2>
+  <p>New scenario, same supplier world. Feedback is instant.</p>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-correct="b">
+      <p class="stem">You're renegotiating your annual pricing agreement with Coldline — your fourth year with them. You have purchase history, two fresh competing quotes, and a solid deal sheet. The meeting opens with small talk; pricing is about to come up. Who should name the first number?</p>
+      <button class="opt" data-k="a">Coldline — let them reveal their position first, then react</button>
+      <button class="opt" data-k="b">You — you know the ZOPA well, can justify your number, and the anchor will frame the whole renewal</button>
+      <button class="opt" data-k="c">Neither — steer the conversation so pricing emerges gradually without anyone anchoring</button>
+      <div class="explain good">Right. This is the textbook go-first situation: strong market knowledge, justifiable number, recurring relationship. Waiting for their quote — the standard procurement reflex — hands them the frame for no informational gain you don't already have. And remember the comfort trap: going first will feel slightly wrong even when it's right.</div>
+      <div class="explain bad">Check the decision rule: let them go first only when they know the ZOPA much better than you, or you lack market data. Neither applies — you have history, quotes, and a deal sheet. Their opening quote adds almost no information you don't have, but it would cost you the frame. (And "no one anchors" isn't a real option: the first number will be spoken by someone; the only question is whose.)</div>
+    </div>
+
+    <div class="q" data-correct="c">
+      <p class="stem">Your deal sheet says aspiration $2,200, reservation $2,390. You've decided to go first. Which opening is strongest?</p>
+      <button class="opt" data-k="a">"$1,900" — anchor aggressively low to leave maximum room</button>
+      <button class="opt" data-k="b">"$2,200" — your aspiration point, clean and round</button>
+      <button class="opt" data-k="c">"$2,185, based on our annual volume and current market quotes" — precise, at aspiration, justification attached</button>
+      <div class="explain good">Yes — all three findings in one number. It sits at your ambitious-but-defensible aspiration point, it's precise (signals computation, anchors harder than round $2,200), and the justification is pre-attached so the anchor survives the inevitable "how did you get there?" challenge. $1,900 fails the defensibility test: when you can't back it, it collapses and damages both credibility and a relationship you need for years.</div>
+      <div class="explain bad">Two tests for an opening anchor: <em>defensible</em> (can you justify it when challenged? $1,900 fails — it collapses and costs credibility with a long-term supplier) and <em>precise</em> (research shows $2,185 anchors harder than a round $2,200, because precision signals the number was computed, not invented). The strongest opening passes both and arrives with its rationale already attached.</div>
+    </div>
+
+    <div class="q" data-correct="a">
+      <p class="stem">A new supplier you don't know well opens with "$3,100 per unit — that's our standard project rate." Your sheet says the ZOPA likely tops out near $2,400. Your best next move?</p>
+      <button class="opt" data-k="a">"We're a long way apart on price. Help me understand what that rate is built on?" — defuse, then probe the basis</button>
+      <button class="opt" data-k="b">Counter at $2,950 to keep things friendly, planning to meet in the middle</button>
+      <button class="opt" data-k="c">Say nothing about their number and immediately state your own: "$2,185."</button>
+      <div class="explain good">Exactly the three-move sequence: kill the anchor explicitly first ("a long way apart"), then make them justify it. Either their basis teaches you something real about their costs, or the $3,100 publicly deflates. Only then do you re-anchor with your justified number. Countering at $2,950 would be the classic loss — it accepts their frame and makes the midpoint ~$2,700, far above your entire ZOPA.</div>
+      <div class="explain bad">Countering near their number validates the anchor — you'd be negotiating inside <em>their</em> frame, with a midpoint around $2,700 when your zone tops out at $2,400. And counter-anchoring instantly (option c) without defusing first reads as haggling: they'll average the two numbers. Sequence matters: defuse explicitly, ask the basis, <em>then</em> place your justified counter.</div>
+    </div>
+
+    <div class="q" data-correct="b">
+      <p class="stem">After you anchor at $2,185, the Coldline rep laughs: "Come on, you know we can't do that." No counter-number, just pushback. What's happening, and what do you do?</p>
+      <button class="opt" data-k="a">Your anchor was too aggressive — apologize and move to $2,300 to show good faith</button>
+      <button class="opt" data-k="b">Standard anchor-testing — restate the basis calmly and let the number sit; they haven't even countered yet</button>
+      <button class="opt" data-k="c">They're offended — withdraw the number and ask what they had in mind</button>
+      <div class="explain good">Right. Pushback without a counter-offer is a test of whether your anchor is real, not a rejection. You built the number to be defensible — so defend it: restate the volume data and quotes, then stop talking. Moving your own number before they've countered would be bidding against yourself — and it teaches a recurring supplier that your anchors melt under one laugh, which repricing every future deal.</div>
+      <div class="explain bad">Read the move: they gave you pressure, not a counter-offer. Conceding now (or withdrawing the anchor) means bidding against yourself — and with a recurring supplier it sets a precedent that your numbers move under social pressure alone, which you'll pay for in every future negotiation. Your anchor was built defensible for exactly this moment: restate its basis calmly, then let silence do the work.</div>
+    </div>
+
+    <div class="score" id="score"></div>
+  </div>
+
+  <h2><span class="n">5.</span> Your win: anchor a real deal</h2>
+  <p>For your next negotiation (or rerun a recent one):</p>
+  <ol>
+    <li>Fill in the <a href="0001-the-deal-sheet.html">deal sheet</a> first — anchoring without it is bravado.</li>
+    <li>Apply the decision rule: who knows the ZOPA better? Write down <em>go first</em> or <em>let them</em>, and why.</li>
+    <li>If going first: write your opening as a <strong>precise number + attached justification</strong>, one sentence. Rehearse it out loud twice — the comfort trap is real.</li>
+    <li>If they anchor first: write your defusing line and your basis-probing question <em>in advance</em>, so move one is ready before you're in the room.</li>
+  </ol>
+  <p>Bring the result back to me — especially if the anchor got tested. The post-anchor moment (Q4) is where we'll go next: concessions, and never giving something for nothing.</p>
+
+  <div class="followup">
+    <strong>Questions?</strong> Ask me in the terminal — anything unclear from this lesson is my job to fix. Three common follow-ups (RFQs &amp; sealed bids, "list price" anchors, anchoring on non-price terms) are already answered in the companion reference: <a href="../reference/anchoring-edge-cases.html">Anchoring Edge Cases</a>.
+  </div>
+
+  <footer>
+    Lesson 0002 · <a href="../index.html">Course Index</a> · <a href="../reference/glossary.html">Glossary</a> · <a href="../reference/anchoring-edge-cases.html">Anchoring Edge Cases</a> · Previous: <a href="0001-the-deal-sheet.html">The Deal Sheet</a> · Next: <a href="0003-concession-strategy.html">0003 — Concession Strategy</a><br>
+    Sources: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/what-is-anchoring-in-negotiation/">PON: What is Anchoring in Negotiation?</a> · <a href="https://www.pon.harvard.edu/daily/dealmaking-daily/resolving-the-first-offer-dilemma-in-business-negotiations/">PON: The First-Offer Dilemma</a> · <a href="https://www.pon.harvard.edu/daily/dealmaking-daily/negotiation-research-can-use-effective-first-offer-strive-precision-nb/">PON: For Effective Price Anchoring, Strive for Precision</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var qs = Array.prototype.slice.call(document.querySelectorAll('.q'));
+  var answered = 0, correct = 0;
+  qs.forEach(function (q) {
+    var done = false;
+    q.querySelectorAll('button.opt').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (done) return;
+        done = true;
+        answered++;
+        var isRight = btn.dataset.k === q.dataset.correct;
+        if (isRight) correct++;
+        q.querySelectorAll('button.opt').forEach(function (b) {
+          if (b.dataset.k === q.dataset.correct) b.classList.add('correct');
+          else if (b === btn) b.classList.add('wrong');
+          b.style.cursor = 'default';
+        });
+        q.querySelector(isRight ? '.explain.good' : '.explain.bad').classList.add('shown');
+        if (answered === qs.length) {
+          var s = document.getElementById('score');
+          s.style.display = 'block';
+          s.textContent = 'Score: ' + correct + '/' + qs.length + ' — ' +
+            (correct === 4 ? 'Solid. Take it to a real deal (section 5).' :
+             correct >= 2 ? 'Good. Re-read the explanations you missed, then do section 5 on a real deal.' :
+             'Re-read sections 2–3 before trying this live. Ask your teacher about anything unclear.');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>

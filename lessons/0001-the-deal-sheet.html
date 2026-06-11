@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 0001 — The Deal Sheet</title>
+<style>
+  :root {
+    --ink: #1a1f2e;
+    --muted: #5c6470;
+    --accent: #0d5c4d;
+    --accent-soft: #e8f2ef;
+    --warn: #9a3412;
+    --warn-soft: #fdf0e7;
+    --good: #166534;
+    --good-soft: #ecf7ee;
+    --bad: #991b1b;
+    --bad-soft: #fcecec;
+    --rule: #e3e6ea;
+    --paper: #fdfdfb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper); color: var(--ink);
+    margin: 0; line-height: 1.65; font-size: 1.02rem;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  nav.course {
+    display: flex; align-items: baseline; gap: .8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem;
+    margin-bottom: 1.6rem; color: var(--muted);
+  }
+  nav.course a { color: var(--accent); text-decoration: none; }
+  nav.course a:hover { text-decoration: underline; }
+  nav.course .grow { flex: 1; }
+  @media print { nav.course { display: none; } }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .4rem;
+  }
+  h1 { font-size: 2.1rem; margin: 0; font-weight: 600; line-height: 1.2; }
+  .promise { color: var(--muted); margin-top: .6rem; font-style: italic; }
+  h2 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.15rem; margin: 2.6rem 0 .8rem;
+    letter-spacing: .02em;
+  }
+  h2 .n { color: var(--accent); margin-right: .5rem; }
+  a { color: var(--accent); }
+  .mission-tie {
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .term { font-weight: 700; color: var(--accent); }
+  .chain-box {
+    font-family: 'SF Mono', Menlo, monospace; font-size: .82rem;
+    background: #f4f5f3; border: 1px solid var(--rule); border-radius: 6px;
+    padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre;
+    line-height: 1.9;
+  }
+  .scenario {
+    border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1.2rem 1.4rem; margin: 1.4rem 0;
+    background: #fff;
+  }
+  .scenario h3 {
+    margin: 0 0 .6rem; font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .95rem; }
+  th, td { text-align: left; padding: .5rem .7rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  td.num { font-family: 'SF Mono', Menlo, monospace; font-size: .85rem; white-space: nowrap; }
+  .trap {
+    background: var(--warn-soft); border-left: 4px solid var(--warn);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .trap strong { color: var(--warn); }
+  /* Quiz */
+  .quiz { counter-reset: q; margin-top: 1rem; }
+  .q {
+    border: 1px solid var(--rule); border-radius: 8px; background: #fff;
+    padding: 1.1rem 1.3rem; margin: 1.2rem 0;
+  }
+  .q p.stem { margin: 0 0 .8rem; font-weight: 600; }
+  .q p.stem::before {
+    counter-increment: q; content: "Q" counter(q) " · ";
+    color: var(--accent); font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .q button.opt {
+    display: block; width: 100%; text-align: left;
+    font-family: Georgia, serif; font-size: .95rem;
+    background: #fafaf8; border: 1px solid var(--rule); border-radius: 6px;
+    padding: .6rem .9rem; margin: .4rem 0; cursor: pointer; color: var(--ink);
+    transition: background .15s;
+  }
+  .q button.opt:hover { background: var(--accent-soft); }
+  .q button.opt.correct { background: var(--good-soft); border-color: var(--good); }
+  .q button.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .q .explain {
+    display: none; margin-top: .7rem; padding: .7rem .9rem; border-radius: 6px;
+    font-size: .92rem;
+  }
+  .q .explain.shown { display: block; }
+  .q .explain.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .q .explain.bad { background: var(--bad-soft); border-left: 3px solid var(--bad); }
+  .score {
+    display: none; margin: 1.5rem 0; padding: 1rem 1.2rem; border-radius: 8px;
+    background: var(--accent-soft); border-left: 4px solid var(--accent); font-weight: 600;
+  }
+  /* Deal sheet template */
+  .sheet {
+    border: 2px solid var(--ink); border-radius: 8px; padding: 1.4rem 1.6rem;
+    margin: 1.4rem 0; background: #fff;
+  }
+  .sheet h3 { margin: 0 0 1rem; font-family: 'Helvetica Neue', Arial, sans-serif; font-size: 1rem; }
+  .sheet ol { margin: 0; padding-left: 1.3rem; }
+  .sheet li { margin: .55rem 0; }
+  .sheet .blank {
+    display: inline-block; min-width: 180px; border-bottom: 1px dotted var(--muted);
+  }
+  .followup {
+    background: var(--accent-soft); border-radius: 8px; padding: 1rem 1.3rem;
+    margin-top: 2.5rem; font-size: .95rem;
+  }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); }
+  cite { font-size: .85rem; color: var(--muted); }
+  @media print {
+    .quiz, .followup, .score { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="course">
+    <a href="../index.html">⌂ Course Index</a>
+    <span class="grow"></span>
+    <span>Next: <a href="0002-anchoring.html">0002 · Anchoring →</a></span>
+  </nav>
+  <header>
+    <p class="kicker">Lesson 0001 · Contract Negotiation · ~15 minutes</p>
+    <h1>The Deal Sheet</h1>
+    <p class="promise">One page, three numbers, prepared before every negotiation. This is the structure your instincts have been missing.</p>
+  </header>
+
+  <div class="mission-tie">
+    <strong>Why this first?</strong> You negotiate supplier and distribution deals constantly, and you're good at the table. But Harvard's Program on Negotiation calls failure to prepare <em>the</em> biggest mistake negotiators make — unprepared negotiators "leave value on the table and get taken advantage of" (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-preparation-checklist/">PON preparation checklist</a>). Their full checklist runs 32 questions; the deal sheet is the five that move price and terms.
+  </div>
+
+  <h2><span class="n">1.</span> The chain: three numbers, in order</h2>
+
+  <p>Every deal sheet is built in a fixed order, because each number derives from the one before it:</p>
+
+  <div class="chain-box">1. BATNA              what will I actually do if there's no deal?
+2. Reservation point  that alternative, priced on THIS deal's terms
+3. Aspiration point   the ambitious-but-defensible target
+4. Their side         my best estimate of THEIR BATNA + reservation
+5. ZOPA               the overlap — where the deal will land</div>
+
+  <p><span class="term">BATNA</span> — your <em>Best Alternative To a Negotiated Agreement</em> — is what you will really do if talks fail: the second-best supplier, buying a smaller quantity elsewhere, postponing the purchase. It must be real and available, not hypothetical (<a href="https://www.pon.harvard.edu/daily/batna/translate-your-batna-to-the-current-deal/">PON on BATNA</a>). Your power in the room is exactly as strong as this alternative — which is why step one of preparation is often <em>improving</em> it: get a second quote before the meeting, not after.</p>
+
+  <p><span class="term">Reservation point</span> is your BATNA translated into a walk-away number on this deal: the price and terms at which signing and walking feel identical. Worse than this, you walk — calmly, because you know exactly what you're walking to.</p>
+
+  <p><span class="term">Aspiration point</span> is the "ambitious, but not outrageous, goal" (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-preparation-checklist/">PON checklist, item 11</a>). Negotiators who set explicit optimistic targets consistently get more than those who only know their floor — because without a target, your reservation point quietly becomes your goal, and you "win" by barely not losing.</p>
+
+  <p><span class="term">ZOPA</span> — the Zone of Possible Agreement — is the overlap between your reservation point and theirs (<a href="https://www.pon.harvard.edu/tag/zone-of-possible-agreement/">PON on ZOPA</a>). Every signable deal lives inside it. Technique decides <em>where</em> inside it you land; preparation tells you how big it is.</p>
+
+  <div class="trap">
+    <strong>The equivalence trap.</strong> PON's core warning when setting your reservation point: compare alternatives on <em>truly equivalent terms</em>. A competing supplier quoting 30% less is not actually cheaper if the warranty is shorter, lead time longer, or payment terms harsher (<a href="https://www.pon.harvard.edu/daily/batna/translate-your-batna-to-the-current-deal/">PON: "a BATNA in the bush"</a>). For your recurring suppliers this matters doubly: the incumbent's reliability is part of the price comparison.
+  </div>
+
+  <h2><span class="n">2.</span> Worked example</h2>
+
+  <div class="scenario">
+    <h3>Scenario · used in the quiz below</h3>
+    <p>You're buying <strong>40 commercial refrigeration units</strong> for a project. Your incumbent supplier, <strong>Coldline</strong>, quotes <strong>$2,400/unit</strong>, 60-day delivery, 2-year warranty, 30-day payment terms. You request a competing quote from <strong>FrostTech</strong>, a supplier you've used once: <strong>$2,250/unit</strong>, but 90-day delivery and 1-year warranty. The project can absorb 90-day delivery at a real cost of roughly <strong>$80/unit</strong> in schedule risk, and you value Coldline's extra warranty year at about <strong>$60/unit</strong>.</p>
+    <table>
+      <tr><th>Deal sheet line</th><th>Value</th><th>Reasoning</th></tr>
+      <tr><td>BATNA</td><td class="num">FrostTech @ $2,250</td><td>Real, quoted, available</td></tr>
+      <tr><td>Reservation point</td><td class="num">$2,390/unit</td><td>$2,250 + $80 schedule risk + $60 warranty = FrostTech priced on equivalent terms</td></tr>
+      <tr><td>Aspiration point</td><td class="num">$2,200/unit</td><td>Defensible: 40-unit volume + visible competing quote justify asking below both quotes</td></tr>
+      <tr><td>Their side (est.)</td><td class="num">~$2,100 floor</td><td>Coldline won't want to lose a recurring account over one project; margin likely allows it</td></tr>
+      <tr><td>ZOPA</td><td class="num">$2,100 – $2,390</td><td>Wide zone. Preparation just told you $2,400 is outside it.</td></tr>
+    </table>
+    <p style="margin-bottom:0">Note what happened: Coldline's $2,400 quote <em>felt</em> fine until the sheet showed it's above your reservation point. And FrostTech's "$150 cheaper" quote shrank to $90 once priced on equivalent terms. Two instinct-level errors caught on one page.</p>
+  </div>
+
+  <h2><span class="n">3.</span> Check yourself</h2>
+  <p>Same scenario. Answer all four — feedback is instant.</p>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-correct="b">
+      <p class="stem">Mid-meeting, Coldline's rep says: "I can do $2,380, final offer." What does your deal sheet tell you?</p>
+      <button class="opt" data-k="a">Walk away — it's barely below reservation, not worth it</button>
+      <button class="opt" data-k="b">It's inside the ZOPA, so it's signable — but it's $180 above your aspiration, so keep negotiating toward $2,200</button>
+      <button class="opt" data-k="c">Accept — it beats their original quote, which is what counts</button>
+      <div class="explain good">Right. $2,380 &lt; $2,390 reservation → signable. But the sheet exists precisely so "signable" doesn't become "settled for": your target is $2,200 and the estimated ZOPA runs to $2,100. The reservation point tells you when to walk; the aspiration point tells you when to stop pushing. <em>Improvement over the original quote</em> appears in neither.</div>
+      <div class="explain bad">Look at the two boundary numbers: $2,380 is <em>below</em> your $2,390 reservation point (signable — so don't walk) but far <em>above</em> your $2,200 aspiration (so don't accept yet either). Progress vs. their opening quote is irrelevant — that's their anchor, not your sheet.</div>
+    </div>
+
+    <div class="q" data-correct="c">
+      <p class="stem">A colleague says: "FrostTech is $150 cheaper — just tell Coldline to beat $2,250 or lose the order." What's wrong with that?</p>
+      <button class="opt" data-k="a">Nothing — it's a strong, honest pressure move</button>
+      <button class="opt" data-k="b">It's too aggressive and will damage the relationship</button>
+      <button class="opt" data-k="c">It compares non-equivalent offers: adjusted for delivery and warranty, FrostTech is really $2,390 — bluffing past that risks Coldline calling it</button>
+      <div class="explain good">Exactly — the equivalence trap. Your real walk-away is $2,390, not $2,250. If Coldline knows their delivery and warranty edge (good reps do), they may counter at $2,300 and call the bluff — and now you either overpay at FrostTech or visibly back down. Pressure is fine; pressure anchored to a number you can't actually walk to is not.</div>
+      <div class="explain bad">The issue isn't aggression or honesty — referencing a competing quote is normal practice. The issue is that $2,250 isn't an equivalent offer: add $80 schedule risk and $60 warranty value and FrostTech really costs $2,390. Threatening to walk to a number that isn't your true alternative is a bluff that a good rep can call.</div>
+    </div>
+
+    <div class="q" data-correct="a">
+      <p class="stem">Before the meeting you could spend two hours getting a third quote from a supplier likely to land near $2,300 with comparable terms. Worth it?</p>
+      <button class="opt" data-k="a">Yes — if it comes in as expected, it raises your power by improving your BATNA and tightening your reservation point to ~$2,300</button>
+      <button class="opt" data-k="b">No — two quotes are enough; more preparation has diminishing returns</button>
+      <button class="opt" data-k="c">No — a third quote at $2,300 changes nothing since FrostTech is already cheaper</button>
+      <div class="explain good">Yes. PON stresses that BATNA work is ongoing, and the single most powerful preparation move is <em>improving</em> your alternative before the meeting. A comparable-terms quote near $2,300 beats FrostTech's equivalent-adjusted $2,390, dropping your reservation point ~$90 — every dollar of which is now winnable at the table. Away-from-the-table moves often beat at-the-table technique.</div>
+      <div class="explain bad">Compare on equivalent terms: FrostTech's <em>real</em> cost to you is $2,390, so a comparable-terms quote at ~$2,300 would become your new best alternative and cut your reservation point by ~$90. Two hours to structurally strengthen your position in every exchange that follows is excellent value.</div>
+    </div>
+
+    <div class="q" data-correct="b">
+      <p class="stem">Why does the sheet force you to write the aspiration point ($2,200) and not just the walk-away ($2,390)?</p>
+      <button class="opt" data-k="a">So you can open the meeting by stating your target out loud</button>
+      <button class="opt" data-k="b">Because without an explicit target, the reservation point becomes your de-facto goal, and you'll settle near it feeling "successful"</button>
+      <button class="opt" data-k="c">Because the aspiration point is what you report to management afterwards</button>
+      <div class="explain good">This is the core insight for a practiced-but-unstructured negotiator. Knowing only your floor, anything above it feels like a win — so you drift to it. An explicit, defensible target re-aims the whole negotiation: research consistently shows negotiators with ambitious specific targets outperform those without (<a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-preparation-checklist/">PON checklist</a>). Walk-away protects you from bad deals; aspiration gets you good ones.</div>
+      <div class="explain bad">Not quite — whether you reveal the target is a separate tactical choice (that's anchoring, next lesson), and it's certainly not for reporting. The target's job is psychological and pre-emptive: without it, your floor silently becomes your goal, and you'll settle at $2,370 feeling good. The aspiration point is what makes you keep pushing inside the safe zone.</div>
+    </div>
+
+    <div class="score" id="score"></div>
+  </div>
+
+  <h2><span class="n">4.</span> Your win: build one for a real deal</h2>
+  <p>Take a negotiation you have coming up — or rerun your most recent supplier deal. Fill this in. Target: under 30 minutes. (This template prints cleanly: <kbd>⌘P</kbd>.)</p>
+
+  <div class="sheet">
+    <h3>DEAL SHEET — <span class="blank"></span> (counterparty) · <span class="blank" style="min-width:100px"></span> (date)</h3>
+    <ol>
+      <li><strong>My BATNA</strong> (real &amp; available — name it): <span class="blank"></span></li>
+      <li><strong>Can I improve it before the meeting?</strong> (second quote, alternative spec, delay): <span class="blank"></span></li>
+      <li><strong>Reservation point</strong> (BATNA priced on this deal's terms — adjust for warranty, lead time, payment terms, reliability): <span class="blank"></span></li>
+      <li><strong>Aspiration point</strong> (ambitious + the reason it's defensible): <span class="blank"></span></li>
+      <li><strong>Their BATNA &amp; reservation point</strong> (best estimate — how badly do they need this order?): <span class="blank"></span></li>
+      <li><strong>Estimated ZOPA</strong>: <span class="blank"></span></li>
+    </ol>
+  </div>
+
+  <p>When you've filled one in for a real deal, bring it back to your teacher (me) and I'll pressure-test it with you — especially line 3, where the equivalence trap lives, and line 5, which most preparation skips entirely.</p>
+
+  <div class="followup">
+    <strong>Questions?</strong> I'm your teacher — ask me anything from this lesson in the terminal: why reservation points should stay secret, how this works when the supplier knows they're your only option, or how to estimate the other side's floor. Unclear parts are my job to fix.
+  </div>
+
+  <footer>
+    Lesson 0001 · <a href="../index.html">Course Index</a> · <a href="../reference/glossary.html">Glossary</a> · Next: <a href="0002-anchoring.html">0002 — Anchoring: The First Number</a><br>
+    Sources: <a href="https://www.pon.harvard.edu/daily/negotiation-skills-daily/negotiation-preparation-checklist/">PON Negotiation Preparation Checklist</a> · <a href="https://www.pon.harvard.edu/daily/batna/translate-your-batna-to-the-current-deal/">PON: Translate Your BATNA to the Current Deal</a> · <a href="https://www.pon.harvard.edu/tag/zone-of-possible-agreement/">PON: ZOPA</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var qs = Array.prototype.slice.call(document.querySelectorAll('.q'));
+  var answered = 0, correct = 0;
+  qs.forEach(function (q) {
+    var done = false;
+    q.querySelectorAll('button.opt').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (done) return;
+        done = true;
+        answered++;
+        var isRight = btn.dataset.k === q.dataset.correct;
+        if (isRight) correct++;
+        q.querySelectorAll('button.opt').forEach(function (b) {
+          if (b.dataset.k === q.dataset.correct) b.classList.add('correct');
+          else if (b === btn) b.classList.add('wrong');
+          b.style.cursor = 'default';
+        });
+        q.querySelector(isRight ? '.explain.good' : '.explain.bad').classList.add('shown');
+        if (answered === qs.length) {
+          var s = document.getElementById('score');
+          s.style.display = 'block';
+          s.textContent = 'Score: ' + correct + '/' + qs.length + ' — ' +
+            (correct === 4 ? 'Solid. You’re ready to build a real deal sheet below.' :
+             correct >= 2 ? 'Good. Re-read the explanations you missed, then build your real deal sheet below.' :
+             'Worth re-reading sections 1–2 before the real-world exercise. Ask your teacher about anything unclear.');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
