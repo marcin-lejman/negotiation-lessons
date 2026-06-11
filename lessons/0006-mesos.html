@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lesson 0006 — Multi-Issue Offers (MESOs)</title>
+<style>
+  :root {
+    --ink: #1a1f2e;
+    --muted: #5c6470;
+    --accent: #0d5c4d;
+    --accent-soft: #e8f2ef;
+    --warn: #9a3412;
+    --warn-soft: #fdf0e7;
+    --good: #166534;
+    --good-soft: #ecf7ee;
+    --bad: #991b1b;
+    --bad-soft: #fcecec;
+    --rule: #e3e6ea;
+    --paper: #fdfdfb;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: Georgia, 'Times New Roman', serif;
+    background: var(--paper); color: var(--ink);
+    margin: 0; line-height: 1.65; font-size: 1.02rem;
+  }
+  .page { max-width: 720px; margin: 0 auto; padding: 3rem 1.5rem 5rem; }
+  nav.course {
+    display: flex; align-items: baseline; gap: .8rem;
+    font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .78rem;
+    margin-bottom: 1.6rem; color: var(--muted);
+  }
+  nav.course a { color: var(--accent); text-decoration: none; }
+  nav.course a:hover { text-decoration: underline; }
+  nav.course .grow { flex: 1; }
+  @media print { nav.course { display: none; } }
+  header { border-bottom: 3px double var(--ink); padding-bottom: 1.2rem; margin-bottom: 2rem; }
+  .kicker {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .72rem; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--accent); font-weight: 700; margin: 0 0 .4rem;
+  }
+  h1 { font-size: 2.1rem; margin: 0; font-weight: 600; line-height: 1.2; }
+  .promise { color: var(--muted); margin-top: .6rem; font-style: italic; }
+  h2 {
+    font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: 1.15rem; margin: 2.6rem 0 .8rem; letter-spacing: .02em;
+  }
+  h2 .n { color: var(--accent); margin-right: .5rem; }
+  a { color: var(--accent); }
+  .mission-tie {
+    background: var(--accent-soft); border-left: 4px solid var(--accent);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .term { font-weight: 700; color: var(--accent); }
+  .rule-box {
+    font-family: 'SF Mono', Menlo, monospace; font-size: .82rem;
+    background: #f4f5f3; border: 1px solid var(--rule); border-radius: 6px;
+    padding: 1rem 1.2rem; margin: 1.4rem 0; overflow-x: auto; white-space: pre;
+    line-height: 1.9;
+  }
+  .say {
+    font-style: italic; color: var(--muted); display: block;
+    border-left: 3px solid var(--rule); padding-left: .9rem; margin: .5rem 0;
+  }
+  .scenario {
+    border: 1px solid var(--rule); border-radius: 8px;
+    padding: 1.2rem 1.4rem; margin: 1.4rem 0; background: #fff;
+  }
+  .scenario h3 {
+    margin: 0 0 .6rem; font-family: 'Helvetica Neue', Arial, sans-serif;
+    font-size: .8rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted);
+  }
+  table { border-collapse: collapse; width: 100%; margin: 1rem 0; font-size: .92rem; }
+  th, td { text-align: left; padding: .5rem .6rem; border-bottom: 1px solid var(--rule); vertical-align: top; }
+  th { font-family: 'Helvetica Neue', Arial, sans-serif; font-size: .76rem; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+  td.num { font-family: 'SF Mono', Menlo, monospace; font-size: .84rem; white-space: nowrap; }
+  .trap {
+    background: var(--warn-soft); border-left: 4px solid var(--warn);
+    padding: .9rem 1.2rem; margin: 1.5rem 0; font-size: .95rem;
+  }
+  .trap strong { color: var(--warn); }
+  /* Quiz */
+  .quiz { counter-reset: q; margin-top: 1rem; }
+  .q {
+    border: 1px solid var(--rule); border-radius: 8px; background: #fff;
+    padding: 1.1rem 1.3rem; margin: 1.2rem 0;
+  }
+  .q p.stem { margin: 0 0 .8rem; font-weight: 600; }
+  .q p.stem::before {
+    counter-increment: q; content: "Q" counter(q) " · ";
+    color: var(--accent); font-family: 'Helvetica Neue', Arial, sans-serif;
+  }
+  .q button.opt {
+    display: block; width: 100%; text-align: left;
+    font-family: Georgia, serif; font-size: .95rem;
+    background: #fafaf8; border: 1px solid var(--rule); border-radius: 6px;
+    padding: .6rem .9rem; margin: .4rem 0; cursor: pointer; color: var(--ink);
+    transition: background .15s;
+  }
+  .q button.opt:hover { background: var(--accent-soft); }
+  .q button.opt.correct { background: var(--good-soft); border-color: var(--good); }
+  .q button.opt.wrong { background: var(--bad-soft); border-color: var(--bad); }
+  .q .explain { display: none; margin-top: .7rem; padding: .7rem .9rem; border-radius: 6px; font-size: .92rem; }
+  .q .explain.shown { display: block; }
+  .q .explain.good { background: var(--good-soft); border-left: 3px solid var(--good); }
+  .q .explain.bad { background: var(--bad-soft); border-left: 3px solid var(--bad); }
+  .score {
+    display: none; margin: 1.5rem 0; padding: 1rem 1.2rem; border-radius: 8px;
+    background: var(--accent-soft); border-left: 4px solid var(--accent); font-weight: 600;
+  }
+  .followup {
+    background: var(--accent-soft); border-radius: 8px; padding: 1rem 1.3rem;
+    margin-top: 2.5rem; font-size: .95rem;
+  }
+  footer { margin-top: 3rem; padding-top: 1rem; border-top: 1px solid var(--rule); font-size: .85rem; color: var(--muted); }
+  @media print {
+    .quiz, .followup, .score { display: none !important; }
+    body { background: #fff; }
+  }
+</style>
+</head>
+<body>
+<div class="page">
+  <nav class="course">
+    <span><a href="0005-calibrated-questions.html">← 0005 · Calibrated Questions</a></span>
+    <span class="grow"></span>
+    <a href="../index.html">⌂ Course Index</a>
+    <span class="grow"></span>
+    <span>Next: 0007 · Contract Terms (planned)</span>
+  </nav>
+  <header>
+    <p class="kicker">Lesson 0006 · Contract Negotiation · ~15 minutes</p>
+    <h1>Multi-Issue Offers (MESOs)</h1>
+    <p class="promise">Stop making one offer. Make three you value equally — and let their choice tell you what they really want.</p>
+  </header>
+
+  <div class="mission-tie">
+    <strong>Builds on Lessons 0002 and 0004.</strong> A <em>MESO</em> — Multiple Equivalent Simultaneous Offers — is the variable map turned into a weapon: three complete packages, each worth the same to you, presented at once. Each package anchors (Lesson 0002), the set reveals their priorities without them saying a word (Lesson 0004's probing, automated), and research shows users are seen as <em>more flexible</em> while claiming <em>more value</em> — your price-and-relationship mission in a single move (<a href="https://www.pon.harvard.edu/daily/dealmaking-daily/the-benefits-of-multiple-offers/">PON: The Benefits of Multiple Offers</a>).
+  </div>
+
+  <h2><span class="n">1.</span> Why three offers beat one</h2>
+
+  <p>Research by Medvec, Galinsky, Leonardelli and Claussen-Schulz — four empirical studies — found that negotiators presenting <span class="term">multiple equivalent simultaneous offers</span> achieved better outcomes than those making a single packaged offer, <em>without sacrificing the relationship or losing credibility</em> (<a href="https://www.pon.harvard.edu/daily/dealmaking-daily/the-benefits-of-multiple-offers/">PON</a>). Three mechanisms do the work:</p>
+
+  <ul>
+    <li><strong>Information without interrogation.</strong> Which package they gravitate toward — or how they compare them — maps their priorities. It's the Lesson 0004 interest probe, answered by behavior instead of words.</li>
+    <li><strong>Flexibility perception.</strong> Counterparts rate MESO users as more flexible and accommodating — while the offers themselves stay aggressive. You get relationship credit for the <em>format</em> while the <em>content</em> claims value.</li>
+    <li><strong>Triple anchor.</strong> Three packages bracket the conversation inside your frame; a counter must engage your structure rather than replace it with theirs.</li>
+  </ul>
+
+  <p>PON's one caveat: the method is "used far too infrequently" because it demands real preparation. You're already doing the preparation — the deal sheet and variable map <em>are</em> the inputs.</p>
+
+  <h2><span class="n">2.</span> Constructing a MESO: score, assemble, aim high</h2>
+
+  <p>The construction recipe (<a href="https://www.pon.harvard.edu/daily/business-negotiations/how-to-use-mesos-in-business-negotiations/">PON: How to Use MESOs</a>) is your variable map with numbers attached:</p>
+
+  <div class="rule-box">1. WEIGHT the issues      price 50 · lead time 20 · warranty 15 · payment 15
+                          (relative importance to YOU, totalling 100)
+
+2. SCORE the options      within each issue, rate the realistic range
+                          (week-6 delivery = 100 pts · week-9 = 40 pts)
+
+3. ASSEMBLE 3 packages    different shapes, SAME total score to you
+                          — never more than three at once
+
+4. AIM ABOVE TARGET       every package scores better than your
+                          aspiration point — the info you give away
+                          is paid for by the triple anchor</div>
+
+  <p>Rule 4 is the balance of the whole technique: a MESO reveals more about your interests than a single offer does, so the packages must all sit on the ambitious side of your target — the anchoring offsets the disclosure. And one thing stays secret: <strong>never reveal that the packages are equivalent to you.</strong> Present them as "different structures that could work"; the equivalence is your private scoring, not shared information.</p>
+
+  <h2><span class="n">3.</span> Worked example: three ways to buy the same units</h2>
+
+  <div class="scenario">
+    <h3>Scenario · Coldline renewal — instead of one anchor, three</h3>
+    <p>Your weights: price 50, lead time 20, warranty 15, payment 15. Aspiration: $2,200-equivalent. Each package below scores ≈ the same to you — and slightly better than target:</p>
+    <table>
+      <tr><th>Package</th><th>Price</th><th>Payment</th><th>Volume commit</th><th>Warranty / lead</th><th>Their choice reveals</th></tr>
+      <tr><td><strong>A</strong></td><td class="num">$2,160</td><td class="num">net 30</td><td>Full year</td><td>24 mo / wk 8</td><td>Predictability is king — plan trades around volume</td></tr>
+      <tr><td><strong>B</strong></td><td class="num">$2,195</td><td class="num">net 15</td><td>Half year</td><td>24 mo / wk 8</td><td>Cash flow is the pain — payment terms are your currency</td></tr>
+      <tr><td><strong>C</strong></td><td class="num">$2,180</td><td class="num">net 30</td><td>Full year</td><td>36 mo / wk 6</td><td>Margin matters most — they'd rather give service than price</td></tr>
+    </table>
+    <p style="margin-bottom:0">Presented together: <em>"There are a few structures that could work for us next year — A, B, or C. Which direction feels most workable on your side?"</em> Whatever happens next — they pick one, lean toward one, or push back on all three — you've learned their priority ranking without asking a single direct question, and the conversation is happening inside your three anchors. Note B's trick: a <em>higher</em> price than A, traded for fast payment — cheap for you if your cash position allows it, and exactly the kind of valuation-gap logroll the variable map exists to find.</p>
+  </div>
+
+  <div class="trap">
+    <strong>The cherry-picker.</strong> A sharp rep will try: "Let's do A's price with B's payment terms and C's warranty." That combination scores far below your aspiration — it was never on offer. The defense is structural, not verbal: return to your scoring system and <strong>generate three fresh packages</strong> that incorporate what their cherry-picking just revealed (now you know exactly which elements they value) while restoring your total score (<a href="https://www.pon.harvard.edu/daily/business-negotiations/how-to-use-mesos-in-business-negotiations/">PON</a>). Cherry-picking isn't a crisis — it's the richest single piece of priority information the technique produces, as long as you never price the combination they assembled.
+  </div>
+
+  <h2><span class="n">4.</span> Check yourself</h2>
+
+  <div class="quiz" id="quiz">
+    <div class="q" data-correct="b">
+      <p class="stem">You present packages A, B, C. The rep says: "Honestly? None of these work for us." Best next move?</p>
+      <button class="opt" data-k="a">Withdraw the MESO and ask them to propose their own package instead</button>
+      <button class="opt" data-k="b">"Fair enough — no commitment implied, but which of the three comes <em>closest</em> to workable?"</button>
+      <button class="opt" data-k="c">Improve all three packages by a few percent and re-present them</button>
+      <div class="explain good">Right — this is PON's prescribed move. "Which comes closest" is explicitly non-binding, so it's easy to answer — and the answer is the priority map you came for. Rejection of all three is a negotiating posture, not information failure; the comparative question converts the posture back into data. Improving all three (c) is Lesson 0003's cardinal sin in triplicate: three unlabeled, untraded concessions purchased by one "no."</div>
+      <div class="explain bad">Handing them the pen (a) surrenders the triple anchor and the frame — their package will be built from their scoring system, not yours. Sweetening all three (c) pays three concessions for one flat "no," untraded and unlabeled. The research-backed move costs nothing: ask which package comes <em>closest</em>, explicitly without commitment. It's easy for them to answer precisely because it concedes nothing — and it hands you their priority ranking.</div>
+    </div>
+
+    <div class="q" data-correct="c">
+      <p class="stem">A colleague preparing the meeting with you suggests: "Let's tell Coldline all three packages are worth the same to us — it shows good faith and they'll just pick the one that suits them." What's wrong?</p>
+      <button class="opt" data-k="a">Nothing — transparency about equivalence is what makes the technique collaborative</button>
+      <button class="opt" data-k="b">The packages should never actually be equivalent — one should secretly be your favorite</button>
+      <button class="opt" data-k="c">Equivalence is your private scoring. Revealed, it tells them every trade-rate in your map — exactly what each dollar, day, and warranty month is worth to you</button>
+      <div class="explain good">Right. "A, B and C are all the same to us" sounds generous, but it publishes your exchange rates: they can derive that you'll swap $35/unit for net-15 payment, or $20 for a warranty year. With those rates they can construct the package that's cheapest for them at every margin. Present the packages as "structures that could work" — share the <em>options</em> freely (that's the flexible-format credit), keep the <em>valuations</em> private. Lesson 0004's line again: priorities yes, limits and rates no.</div>
+      <div class="explain bad">The packages genuinely should be equivalent to you — that's what makes you indifferent and therefore relaxed about their choice (b is wrong). But equivalence is private infrastructure, not a talking point: revealed, it discloses your internal trade-rates (what a payment-term day or warranty month is worth in dollars to you), letting a sharp counterpart optimize against your map. The collaborative signal comes from offering choice at all — not from publishing the scoring behind it.</div>
+    </div>
+
+    <div class="q" data-correct="a">
+      <p class="stem">The rep responds: "Great — we'll take A's $2,160 price, with B's half-year commitment and C's 36-month warranty." Per this lesson, what now?</p>
+      <button class="opt" data-k="a">Note what their combination reveals, then rebuild: three new packages from your scoring system that restore your total score while honoring the priorities they just exposed</button>
+      <button class="opt" data-k="b">Accept — they engaged with your structure, which is what the technique was designed to achieve</button>
+      <button class="opt" data-k="c">Tell them firmly that mixing packages isn't on the table and they must choose A, B, or C as presented</button>
+      <div class="explain good">Exactly. The cherry-picked combination scores far below anything you offered — accepting it (b) hands over the gap. But refusing rigidly (c) wastes the gift: they just told you precisely which elements they value (deep price, low commitment, long warranty). The structural defense is to regenerate — three fresh packages, each containing <em>some</em> of what they grabbed, each restored to your target score. You keep the frame, they keep feeling heard, and the negotiation converges on a real package instead of a fantasy one.</div>
+      <div class="explain bad">Accepting (b) means paying for a package you never priced — the cherry-picked combination is worth far less to you than any of the three you offered; that delta is pure leakage. But a flat "no mixing" (c) is needlessly rigid and burns the technique's relationship dividend. The move is regenerate: their cherry-pick is the best priority intelligence MESO produces — feed it back into the scoring system and present three new equivalent packages built around what they revealed.</div>
+    </div>
+
+    <div class="q" data-correct="b">
+      <p class="stem">Why should every package in the MESO score <em>above</em> your aspiration point, and why stop at three?</p>
+      <button class="opt" data-k="a">Aggression maximizes profit on whichever they pick; three keeps the meeting short</button>
+      <button class="opt" data-k="b">The aggressive scoring offsets the information a MESO inevitably reveals about your interests; more than three packages overwhelms and dilutes the effect</button>
+      <button class="opt" data-k="c">It guarantees that even after cherry-picking you stay above target; three is just convention</button>
+      <div class="explain good">Right on both counts. A MESO is unusually revealing — three structured packages say a lot about what you care about — so PON's guidance is to counterbalance disclosure with anchoring: every package opens above target, leaving room for the concession ladder. And the three-package cap comes from the research, not convention: beyond three, counterparts disengage from comparison, and comparison is the engine that produces your priority information.</div>
+      <div class="explain bad">Cherry-picking protection (c) doesn't come from aggressive scoring — a cherry-picked combination falls below target regardless; the protection is regenerating packages. The real logic: a MESO discloses interest information (that's its cost), and aiming every package above aspiration is how you charge for the disclosure (that's the anchoring offset). The cap at three is empirical — beyond it, counterparts stop genuinely comparing, and the comparison is what generates your information.</div>
+    </div>
+
+    <div class="score" id="score"></div>
+  </div>
+
+  <h2><span class="n">5.</span> Your win: turn your variable map into a MESO <span style="font-weight:400;color:var(--muted);font-size:.85em">(weekend bundle, part 4)</span></h2>
+  <p>Take the variable map from Lesson 0004's exercise (same real deal) and:</p>
+  <ol>
+    <li><strong>Add weights</strong> — distribute 100 points across your variables by importance.</li>
+    <li><strong>Score the ranges</strong> — within each variable, rate the realistic options (best = 100).</li>
+    <li><strong>Assemble three packages</strong> with visibly different shapes (a price-led one, a terms-led one, a service-led one) that score within a few points of each other — all above your aspiration.</li>
+    <li><strong>Predict</strong> — write one line: which package do you expect them to choose, and what would each choice tell you?</li>
+  </ol>
+  <p>Bring it back with the rest of the bundle. I'll check the two failure modes: packages that aren't really equivalent (one secretly dominates), and packages so similar the choice reveals nothing.</p>
+
+  <div class="followup">
+    <strong>Questions?</strong> Ask me in the terminal: how to present a MESO in writing vs. in the room, whether MESOs work in RFQ/BAFO rounds, what to do when <em>they</em> present you a MESO, or anything else unclear.
+  </div>
+
+  <footer>
+    Lesson 0006 · <a href="../index.html">Course Index</a> · <a href="../reference/glossary.html">Glossary</a> · Previous: <a href="0005-calibrated-questions.html">Calibrated Questions &amp; Tactical Empathy</a> · Next up: buyer-side contract terms<br>
+    Sources: <a href="https://www.pon.harvard.edu/daily/business-negotiations/how-to-use-mesos-in-business-negotiations/">PON: How to Use MESOs in Business Negotiations</a> · <a href="https://www.pon.harvard.edu/daily/dealmaking-daily/the-benefits-of-multiple-offers/">PON: The Benefits of Multiple Offers</a> · <a href="https://www.pon.harvard.edu/tag/meso-negotiation/">PON: MESO Negotiation</a>
+  </footer>
+</div>
+
+<script>
+(function () {
+  var qs = Array.prototype.slice.call(document.querySelectorAll('.q'));
+  var answered = 0, correct = 0;
+  qs.forEach(function (q) {
+    var done = false;
+    q.querySelectorAll('button.opt').forEach(function (btn) {
+      btn.addEventListener('click', function () {
+        if (done) return;
+        done = true;
+        answered++;
+        var isRight = btn.dataset.k === q.dataset.correct;
+        if (isRight) correct++;
+        q.querySelectorAll('button.opt').forEach(function (b) {
+          if (b.dataset.k === q.dataset.correct) b.classList.add('correct');
+          else if (b === btn) b.classList.add('wrong');
+          b.style.cursor = 'default';
+        });
+        q.querySelector(isRight ? '.explain.good' : '.explain.bad').classList.add('shown');
+        if (answered === qs.length) {
+          var s = document.getElementById('score');
+          s.style.display = 'block';
+          s.textContent = 'Score: ' + correct + '/' + qs.length + ' — ' +
+            (correct === 4 ? 'Solid. Part 4 of the weekend bundle awaits (section 5).' :
+             correct >= 2 ? 'Good. Re-read what you missed, then add part 4 to the weekend bundle (section 5).' :
+             'Re-read sections 2–3 before building a real MESO. Ask your teacher about anything unclear.');
+        }
+      });
+    });
+  });
+})();
+</script>
+</body>
+</html>
